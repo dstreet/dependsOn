@@ -1,0 +1,847 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+		<script type="text/javascript" src="assets/js/bootstrap-scrollspy.js"></script>
+		<script type="text/javascript" src="assets/js/google-code-prettify/prettify.js"></script>
+
+		<script type="text/javascript" src="../dependsOn-1.0.min.js"></script>
+
+		<link href="assets/css/style.css" rel="stylesheet">
+		<link href="assets/css/prettify.css" rel="stylesheet">
+
+		<title>dependsOn - a jQuery plugin</title>
+	</head>
+
+	<body data-spy="scroll" data-target=".nav-collapse" onload="prettyPrint()">
+		
+		<div class="navbar navbar-fixed-top">
+			<div class="navbar-inner">
+				<div class="container">
+					<a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+					<span class="icon-bar"></span>
+						<span class="icon-bar"></span>
+						<span class="icon-bar"></span>
+					</a>
+					<a class="brand" href="#main"><img src="assets/img/logo.png"></a>
+					<div class="nav-collapse">
+						<ul class="nav">
+							<li><a href="#usage">Basic Usage</a></li>
+							<li><a href="#qualifiers">Qualifiers</a></li>
+							<li><a href="#options">Options</a></li>
+							<li><a href="#examples">Examples</a></li>
+							<li><a href="#advanced">Advanced</a></li>
+						</ul>
+					</div><!--/.nav-collapse -->
+				</div>
+			</div>
+		</div>
+
+		<div id="main" class="nav_section container">
+			<div class="hero-unit">
+				<img src="assets/img/logo_lg.png">
+				<p>A jQuery plugin to facilitate the handling of form field dependencies.<br>
+				$( subject ).<strong>dependsOn</strong>( dependencySet, [options] );</p>
+			</div>
+		</div>
+
+		<div id="usage" class="nav_section container">
+			<h1>Basic Usage</h1>
+			<br>
+			<ol>
+				<li>
+					<h3>Include jQuery</h3>
+					<p>Add jQuery to your header.</p>
+					<div class="alert">Make sure the path is set to the location where you have jQuery saved.</div>
+					<pre class="prettyprint linenums">
+&lt;script type=&quot;text/javascript&quot; src=&quot;jquery/jquery-1.7.2.min.js&quot;&gt;&lt;/script&gt;</pre>
+				</li>
+
+				<li>
+					<h3>Include dependsOn</h3>
+					<p>Add dependsOn to your header after jQuery.</p>
+					<div class="alert">Make sure the path is set to the location where you have dependsOn saved.</div>
+					<pre class="prettyprint linenums">
+&lt;script type=&quot;text/javascript&quot; src=&quot;dependsOn.min.js&quot;&gt;&lt;/script&gt;</pre>
+				</li>
+
+				<li>
+					<h3>Add form components</h3>
+					<p>In this example the input field &quot;myText&quot; will be enabled when the checkbox &quot;myCheck&quot; is checked.</p>
+					<pre class="prettyprint linenums">
+&lt;form id=&quot;myForm&quot;&gt;
+	&lt;label for=&quot;myCheck&quot;&gt;Check Me&lt;/label&gt;
+	&lt;input type=&quot;checkbox&quot; id=&quot;myCheck&quot;&gt;
+
+	&lt;label for=&quot;myText&quot;&gt;Input&lt;/label&gt;
+	&lt;input type=&quot;text&quot; id=&quot;myText&quot; value=&quot;&quot;&gt;
+&lt;/form&gt;</pre>
+				</li>
+
+				<li>
+					<h3>Activate plugin</h3>
+					<p>Use jQuery selectors to active the plugin.</p>
+					<pre class="prettyprint linenum">
+$('#myText').dependsOn({
+	// The selector for the depenency
+	'#myCheck': {
+		// The dependency qualifiers
+		enabled: true,
+		checked: true
+	}
+});</pre>
+				</li>
+			</ol>
+		</div>
+
+		<div id="qualifiers" class="nav_section container">
+			<h1>Qualifiers</h1>
+			<br>
+
+			<table class="table table-bordered">
+				<thead>
+					<tr>
+						<th>Qualifier</th>
+						<th>Description</th>
+						<th>Type</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr>
+						<td class="property">enabled</td>
+						<td>If true, then dependency must not have the &quot;disabled&quot; attribute.</td>
+						<td>Boolean</td>
+					</tr>
+
+					<tr>
+						<td class="property">checked</td>
+						<td>If true, then dependency must not have the &quot;checked&quot; attribute. Used for checkboxes and radio buttons.</td>
+						<td>Boolean</td>
+					</tr>
+
+					<tr>
+						<td class="property">values</td>
+						<td>Dependency value must equal one of the provided values.</td>
+						<td>Array</td>
+					</tr>
+
+					<tr>
+						<td class="property">not</td>
+						<td>Dependency value must not equal any of the provided values.</td>
+						<td>Array</td>
+					</tr>
+
+					<tr>
+						<td class="property">match</td>
+						<td>Dependency value must match the regular expression.</td>
+						<td>RegEx</td>
+					</tr>
+
+					<tr>
+						<td class="property">contains</td>
+						<td>One of the provided values must be contained in an array of dependency values. Used for select fields with the &quot;multiple&quot; attribute.</td>
+						<td>Array</td>
+					</tr>
+
+					<tr>
+						<td class="property">email</td>
+						<td>If true, dependency value must match an email address.</td>
+						<td>String</td>
+					</tr>
+
+					<tr>
+						<td class="property">url</td>
+						<td>If true, Dependency value must match an URL.</td>
+						<td>String</td>
+					</tr>
+
+					<tr>
+						<td>Custom</td>
+						<td>Custom function which return true or false.</td>
+						<td>Function</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+
+		<div id="options" class="nav_section container">
+			<h1>Options</h1>
+			<br>
+
+			<table class="table table-bordered">
+				<thead>
+					<tr>
+						<th>Property</th>
+						<th>Default</th>
+						<th>Description</th>
+						<th>Type</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr>
+						<td class="property">disable</td>
+						<td>true</td>
+						<td>Add &quot;disabled&quot; attribute to the subject's form field.</td>
+						<td>Boolean</td>
+					</tr>
+
+					<tr>
+						<td class="property">hide</td>
+						<td>true</td>
+						<td>Hide the subject on disable and reveal the subject on enable.</td>
+						<td>Boolean</td>
+					</tr>
+
+					<tr>
+						<td class="property">duration</td>
+						<td>200</td>
+						<td>The time in milliseconds for the fade transition. Used only if <span class="property">hide</span> is set to true.</td>
+						<td>Number</td>
+					</tr>
+
+					<tr>
+						<td class="property">onEnable</td>
+						<td>Empty Function</td>
+						<td>The callback function to execute when the subject has been enabled.</td>
+						<td>Function</td>
+					</tr>
+
+					<tr>
+						<td class="property">onDisable</td>
+						<td>Empty Function</td>
+						<td>The callback function to execute when the subject has been disabled.</td>
+						<td>Function</td>
+					</tr>
+
+					<tr>
+						<td class="property">valueOnEnable</td>
+						<td>n/a</td>
+						<td>The value to set the subject to when enabled.</td>
+						<td>String</td>
+					</tr>
+
+					<tr>
+						<td class="property">valueOnDisable</td>
+						<td>n/a</td>
+						<td>The value to set the subject to when disabled.</td>
+						<td>String</td>
+					</tr>
+
+					<tr>
+						<td class="property">checkOnEnable</td>
+						<td>n/a</td>
+						<td>If true, &quot;checked&quot; attribute will be added to subject when enabled. If false, &quot;checked&quot; attribute will be removed from subject when enabled. For checkboxes and radio buttons.</td>
+						<td>Boolean</td>
+					</tr>
+
+					<tr>
+						<td class="property">checkOnDisable</td>
+						<td>n/a</td>
+						<td>If true, &quot;checked&quot; attribute will be added to subject when disabled. If false, &quot;checked&quot; attribute will be removed from subject when disabled. For checkboxes and radio buttons.</td>
+						<td>Boolean</td>
+					</tr>
+
+					<tr>
+						<td class="property">valueTarget</td>
+						<td>n/a</td>
+						<td>jQuery selector for the object to you want to target for editing the value. Use if you want to alter the value of something other than the subject.</td>
+						<td>String</td>
+					</tr>
+
+					<tr>
+						<td class="property">toggleClass</td>
+						<td>n/a</td>
+						<td>The class you wish to be appended to the subject when enabled. The class will be removed when the subject is disabled.</td>
+						<td>String</td>
+					</tr>
+				</tbody>
+			  </table>
+		</div>
+
+		<div id="examples" class="nav_section container">
+			<h1>Examples</h1>
+			<ol>
+				<li>
+					<h3>Checked</h3>
+					<p>Text field will be enabled and revealed when the checkbox is checked.</p>
+
+					<form class="well" id="checkedTest">
+						<label>
+							<input type="checkbox"> Check me
+						</label>
+						
+						<input type="text" class="subject">
+					</form>
+
+					<div class="showHideCode">
+						<p><b><a href="">Hide HTML</a></b></p>
+						<pre class="prettyprint linenums">
+&lt;form id=&quot;basicTest&quot;&gt;
+	&lt;label&gt;
+		&lt;input type=&quot;checkbox&quot;&gt; Check me
+	&lt;/label&gt;
+	
+	&lt;input type=&quot;text&quot; class=&quot;subject&quot;&gt;
+&lt;/form&gt;</pre>
+					</div>
+
+					<div class="showHideCode">
+						<p><b><a href="">Hide Javascript</a></b></p>
+						<pre class="prettyprint linenums">
+$('#basicTest .subject').dependsOn({
+	'#basicTest input[type="checkbox"]': {
+		checked: true
+	}
+});</pre>
+					</div>
+				</li>
+
+				<li>
+					<h3>Values</h3>
+					<p>Submit button will be enabled and revealed when the text field value is either &quot;yes&quot; or &quot;true&quot;.</p>
+
+					<form class="well" id="valuesTest">
+						<label>Do you wish to continue?</label>
+						<input type="text">
+						<br>
+
+						<input type="submit" class="btn subject">
+					</form>
+
+					<div class="showHideCode">
+						<p><b><a href="">Hide HTML</a></b></p>
+						<pre class="prettyprint linenums">
+&lt;form id=&quot;valuesTest&quot;&gt;
+	&lt;label&gt;Do you wish to continue?&lt;/label&gt;
+	&lt;input type=&quot;text&quot;&gt;
+
+	&lt;input type=&quot;submit&quot; class=&quot;subject&quot;&gt;
+&lt;/form&gt;</pre>
+					</div>
+
+					<div class="showHideCode">
+						<p><b><a href="">Hide Javascript</a></b></p>
+						<pre class="prettyprint linenums">
+$('#valuesTest .subject').dependsOn({
+	'#valuesTest input[type="text"]': {
+		values: ['yes', 'true']
+	}
+});</pre>
+					</div>
+				</li>
+
+				<li>
+					<h3>Multiple Dependencies</h3>
+					<p>Submit button will be enabled and revealed when the checkbox is check and the text field value is an email address.</p>
+
+					<form class="well" id="emailTest">
+						<label>
+							Send me emails <input type="checkbox">
+						</label>
+
+						<label>
+							Email <input type="text" class="email">
+						</label>
+
+						<input type="submit" class="btn subject">
+					</form>
+
+					<div class="showHideCode">
+						<p><b><a href="">Hide HTML</a></b></p>
+						<pre class="prettyprint linenums">
+&lt;form id=&quot;emailTest&quot;&gt;
+	&lt;label&gt;
+		Send me emails &lt;input type=&quot;checkbox&quot;&gt;
+	&lt;/label&gt;
+
+	&lt;label&gt;
+		Email &lt;input type=&quot;text&quot; class=&quot;email&quot;&gt;
+	&lt;/label&gt;
+
+	&lt;input type=&quot;submit&quot; class=&quot;subject&quot;&gt;
+&lt;/form&gt;</pre>
+					</div>
+
+					<div class="showHideCode">
+						<p><b><a href="">Hide Javascript</a></b></p>
+						<pre class="prettyprint linenums">
+$('#emailTest .subject').dependsOn({
+	'#emailTest input[type="checkbox"]': {
+		checked: true
+	},
+	'#emailTest .email': {
+		email: true
+	}
+});</pre>
+					</div>
+				</li>
+
+				<li>
+					<h3>Affecting the value</h3>
+					<p>Change the text field value when the select menu changes.</p>
+
+					<form class="well" id="affectValueTest">
+						<label>
+							Enable? <select class="span1">
+								<option value="yes">Yes</option>
+								<option value="no">No</option>
+							</select>
+						</label>
+						
+						<input type="text" class="subject">
+					</form>
+
+					<div class="showHideCode">
+						<p><b><a href="">Hide HTML</a></b></p>
+						<pre class="prettyprint linenums">
+&lt;form id=&quot;affectValueTest&quot;&gt;
+	&lt;label&gt;
+		Enable? &lt;select&gt;
+			&lt;option value=&quot;yes&quot;&gt;Yes&lt;/option&gt;
+			&lt;option value=&quot;no&quot;&gt;No&lt;/option&gt;
+		&lt;/select&gt;
+	&lt;/label&gt;
+	
+	&lt;input type=&quot;text&quot; class=&quot;subject&quot;&gt;
+&lt;/form&gt;</pre>
+					</div>
+
+					<div class="showHideCode">
+						<p><b><a href="">Hide Javascript</a></b></p>
+						<pre class="prettyprint linenums">
+$('#affectValueTest .subject').dependsOn({
+	'#affectValueTest select': {
+		values: ['yes']
+	}
+}, {
+	valueOnEnable: 'Hello, world!',
+	valueOnDisable: 'Goodbye, cruel world...',
+	hide: false
+});</pre>
+					</div>
+				</li>
+
+				<li>
+					<h3>Handling Multiple Values</h3>
+					<p>Button will be enabled when the proper two animals are selected. (hint: They have four legs)</p>
+
+					<form class="well" id="multipleValuesTest">
+						<label>I'm thinking of two animals, what are they?</label>
+						<select multiple>
+							<option value="dog">Dog</option>
+							<option value="fish">Fish</option>
+							<option value="cat">Cat</option>
+							<option value="horse">Spider</option>
+						</select>
+						<br>
+
+						<input type="submit" class="btn subject">
+					</form>
+
+					<div class="showHideCode">
+						<p><b><a href="">Hide HTML</a></b></p>
+						<pre class="prettyprint linenums">
+&lt;form id=&quot;multipleValuesTest&quot;&gt;
+	&lt;label&gt;I'm thinking of two animals, what are they?&lt;/label&gt;
+	&lt;select multiple&gt;
+		&lt;option value=&quot;dog&quot;&gt;Dog&lt;/option&gt;
+		&lt;option value=&quot;fish&quot;&gt;Fish&lt;/option&gt;
+		&lt;option value=&quot;cat&quot;&gt;Cat&lt;/option&gt;
+		&lt;option value=&quot;horse&quot;&gt;Spider&lt;/option&gt;
+	&lt;/select&gt;
+	&lt;br&gt;
+
+	&lt;input type=&quot;submit&quot; class=&quot;subject&quot;&gt;
+&lt;/form&gt;</pre>
+					</div>
+
+					<div class="showHideCode">
+						<p><b><a href="">Hide Javascript</a></b></p>
+						<pre class="prettyprint linenums">
+$('#multipleValuesTest .subject').dependsOn({
+	'#multipleValuesTest select': {
+		values: [['dog', 'cat']]
+	}
+}, {
+	valueOnEnable: 'Correct!',
+	valueOnDisable: 'Incorrect',
+	hide: false
+});</pre>
+					</div>
+				</li>
+
+			</ol>
+		</div>
+
+		<div id="advanced" class="nav_section container">
+			<h1>Advanced Usage</h1>
+			<ol>
+				<li>
+					<h3>Multiple Dependencies with the <span class="property">or</span> method.</h3>
+					<p>$( subject ).<strong>dependsOn</strong>( dependencySet, [options] ).<strong>or</strong>( dependencySet );
+					<br>Adds an additional dependency set to check against. They can also be chained together for three or more dependency sets.</p>
+
+					<h4>Example</h4>
+					<p>&quot;Add Another&quot; button will be enabled when extra cheese is checked, or an extra topping is selected.</p>
+
+					<form class="well" id="orTest">
+						<label>Would you like to add anything to your pizza?</label>
+						<label>
+							Extra Cheese <input type="checkbox" name="xtraCheese">
+						</label>
+
+						<label>
+							Extra Topping <select class="span2">
+								<option value="select">Select one...</option>
+								<option value="pepperoni">Pepperoni</option>
+								<option value="sasage">Sausage</option>
+								<option value="olives">Olives</option>
+								<option value="onion">Onion</option>
+								<option value="Bell Pepper">Bell Pepper</option>
+							</select>
+						</label>
+						
+						<input type="button" class="btn subject" value="Add Another">
+						<input type="submit" class="btn" value="Continue">
+					</form>
+
+					<div class="showHideCode">
+						<p><b><a href="">Hide HTML</a></b></p>
+						<pre class="prettyprint linenums">
+&lt;form id=&quot;orTest&quot;&gt;
+	&lt;label&gt;Would you like to add anything to your pizza?&lt;/label&gt;
+	&lt;label&gt;
+		Extra Cheese &lt;input type=&quot;checkbox&quot; name=&quot;xtraCheese&quot;&gt;
+	&lt;/label&gt;
+
+	&lt;label&gt;
+		Extra Topping &lt;select class=&quot;span2&quot;&gt;
+			&lt;option value=&quot;select&quot;&gt;Select one...&lt;/option&gt;
+			&lt;option value=&quot;pepperoni&quot;&gt;Pepperoni&lt;/option&gt;
+			&lt;option value=&quot;sasage&quot;&gt;Sausage&lt;/option&gt;
+			&lt;option value=&quot;olives&quot;&gt;Olives&lt;/option&gt;
+			&lt;option value=&quot;onion&quot;&gt;Onion&lt;/option&gt;
+			&lt;option value=&quot;Bell Pepper&quot;&gt;Bell Pepper&lt;/option&gt;
+		&lt;/select&gt;
+	&lt;/label&gt;
+	
+	&lt;input type=&quot;button&quot; class=&quot;subject&quot; value=&quot;Add Another&quot;&gt;
+	&lt;input type=&quot;submit&quot; value=&quot;Continue&quot;&gt;
+&lt;/form&gt;</pre>
+					</div>
+
+					<div class="showHideCode">
+						<p><b><a href="">Hide Javascript</a></b></p>
+						<pre class="prettyprint linenums">
+$('#orTest .subject').dependsOn({
+	'#orTest input[name="xtraCheese"]': {
+		checked: true
+	}
+}, {
+	hide: false
+}).or({
+	'#orTest select': {
+		not: ['select']
+	}
+});</pre>
+					</div>
+				</li>
+
+				<li>
+					<h3>Custom Qualifiers</h3>
+					<p>You can easily add your own qualifiers for extended functionality. To use a custom qualifier, add your own property to the qualifiers and assign it to function. The function will be passed the value of the dependency and must return a boolean (true|false) value in order to function properly. There is no limit to the amount of custom qualifiers you can have.</p>
+
+					<h4>Example</h4>
+					<p>The text field will be enabled when the checkbox is checked and &quot;Click me&quot; is clicked.</p>
+
+					<form class="well" id="customQualifierTest">
+						<label>
+							<input type="checkbox"> Check me
+						</label>
+
+						<a href="#" class="clickMe">Click me</a>
+						<br>
+
+						<input type="text" class="subject">
+					</form>
+
+					<div class="showHideCode">
+						<p><b><a href="">Hide HTML</a></b></p>
+						<pre class="prettyprint linenums">
+&lt;form id=&quot;customQualifierTest&quot;&gt;
+	&lt;label&gt;
+		&lt;input type=&quot;checkbox&quot;&gt; Check me
+	&lt;/label&gt;
+	
+	&lt;a href=&quot;#&quot; class=&quot;clickMe&quot;&gt;Click me&lt;/a&gt;
+	&lt;br&gt;
+
+	&lt;input type=&quot;text&quot; class=&quot;subject&quot;&gt;
+&lt;/form&gt;</pre>
+					</div>
+
+					<div class="showHideCode">
+						<p><b><a href="">Hide Javascript</a></b></p>
+						<pre class="prettyprint linenums">
+var isClicked = false;
+
+var customQualifierTest = $('#customQualifierTest .subject').dependsOn({
+	'#customQualifierTest input[type="checkbox"]': {
+		checked: true,
+		// Custom qualifier returns the value of the global variable `isClicked`.
+		clicked: function( val ) {
+			return isClicked;
+		}
+	}
+}, {
+	hide: false
+});
+
+$('#customQualifierTest .clickMe').toggle(function() {
+	isClicked = true;
+	// Force dependencies to be checked.
+	customQualifierTest.check();
+	return false;
+}, function() {
+	isClicked = false;
+	// Force dependencies to be checked.
+	customQualifierTest.check();
+	return false;
+});</pre>
+					</div>
+				</li>
+
+				<li>
+					<h3>Enable and Disable Callbacks</h3>
+					<p>You can specify callbacks for enable and disable using the <span class="property">onEnable</span> and <span class="property">onDisable</span> options.</p>
+
+					<h4>Example</h4>
+					<p>When the text field is enabled by checking the checkbox, a dialog will appear.</p>
+
+					<form class="well" id="callbackTest">
+						<label>
+							<input type="checkbox"> Check me
+						</label>
+						
+						<input type="text" class="subject">
+					</form>
+
+					<div class="showHideCode">
+						<p><b><a href="">Hide HTML</a></b></p>
+						<pre class="prettyprint linenums">
+&lt;form id=&quot;callbackTest&quot;&gt;
+	&lt;label&gt;
+		&lt;input type=&quot;checkbox&quot;&gt; Check me
+	&lt;/label&gt;
+	
+	&lt;input type=&quot;text&quot; class=&quot;subject&quot;&gt;
+&lt;/form&gt;</pre>
+					</div>
+
+					<div class="showHideCode">
+						<p><b><a href="">Hide Javascript</a></b></p>
+						<pre class="prettyprint linenums">
+$('#callbackTest .subject').dependsOn({
+	'#callbackTest input[type="checkbox"]': {
+		checked: true
+	}
+}, {
+	onEnable: function() {
+		window.alert('Hello, world!');
+	}
+});</pre>
+					</div>
+				</li>
+
+				<li>
+					<h3>Value Target</h3>
+					<p>If you wish to change the value of a form field other than the subject you would use the <span class="property">valueTarget</span> option in conjunction with the <span class="property">valueOnEnable</span> and/or <span class="property">valueOnDisable</span> options. This is useful if the subject is not a form field itself.</p>
+
+					<h4>Example</h4>
+					<p>When &quot;Married&quot; or &quot;Widowed&quot; are selected, the salutaion field will be changed to &quot;Mrs.&quot;.</p>
+
+					<form class="well" id="valueTargetTest">
+						<label>
+							Married?
+							<select class="span2">
+								<option value="married">Married</option>
+								<option value="divorced">Divorced</option>
+								<option value="single">Single</option>
+								<option value="widowed">Widowed</option>
+							</select>
+						</label>
+
+						<div class="subject">
+							<input type="text" class="span1 salutation">
+							<input type="text" class="span2" value="Doe">
+						</div>
+					</form>
+
+					<div class="showHideCode">
+						<p><b><a href="">Hide HTML</a></b></p>
+						<pre class="prettyprint linenums">
+&lt;form id=&quot;valueTargetTest&quot;&gt;
+	&lt;label&gt;
+		Married?
+		&lt;select&gt;
+			&lt;option value=&quot;married&quot;&gt;Married&lt;/option&gt;
+			&lt;option value=&quot;divorced&quot;&gt;Divorced&lt;/option&gt;
+			&lt;option value=&quot;single&quot;&gt;Single&lt;/option&gt;
+			&lt;option value=&quot;widowed&quot;&gt;Widowed&lt;/option&gt;
+		&lt;/select&gt;
+	&lt;/label&gt;
+
+	&lt;div class=&quot;subject&quot;&gt;
+		&lt;input type=&quot;text&quot; class=&quot;salutation&quot;&gt;
+		&lt;input type=&quot;text&quot; cvalue=&quot;Doe&quot;&gt;
+	&lt;/div&gt;
+&lt;/form&gt;</pre>
+					</div>
+
+					<div class="showHideCode">
+						<p><b><a href="">Hide Javascript</a></b></p>
+						<pre class="prettyprint linenums">
+$('#valueTargetTest .subject').dependsOn({
+	'#valueTargetTest select': {
+		values: ['married', 'widowed']
+	}
+}, {
+	valueTarget: '#valueTargetTest .salutation',
+	valueOnEnable: 'Mrs.',
+	valueOnDisable: '',
+	hide: false
+});</pre>
+					</div>
+				</li>
+			</ol>
+		</div>
+
+		<script type="text/javascript">
+
+		$( function() {
+
+			$('form').submit(function() {
+				return false;
+			});
+
+			$('.showHideCode a').click(function() {
+				var $codePre = $(this).parents('.showHideCode').find('pre');
+
+				if ( $codePre.css('display') === 'none' ) {
+					$codePre.slideDown();
+					$(this).text( $(this).text().replace('Show', 'Hide') );
+				} else {
+					$codePre.slideUp();
+					$(this).text( $(this).text().replace('Hide', 'Show') );
+				}
+
+				return false;
+			});
+
+			$('#checkedTest .subject').dependsOn({
+				'#checkedTest input[type="checkbox"]': {
+					checked: true
+				}
+			});
+
+			$('#valuesTest .subject').dependsOn({
+				'#valuesTest input[type="text"]': {
+					values: ['yes', 'true']
+				}
+			});
+
+			$('#emailTest .subject').dependsOn({
+				'#emailTest input[type="checkbox"]': {
+					checked: true
+				},
+				'#emailTest .email': {
+					email: true
+				}
+			});
+
+			$('#affectValueTest .subject').dependsOn({
+				'#affectValueTest select': {
+					values: ['yes']
+				}
+			}, {
+				valueOnEnable: 'Hello, world!',
+				valueOnDisable: 'Goodbye, cruel world...',
+				hide: false
+			});
+
+			$('#multipleValuesTest .subject').dependsOn({
+				'#multipleValuesTest select': {
+					values: [['dog', 'cat']]
+				}
+			}, {
+				valueOnEnable: 'Correct!',
+				valueOnDisable: 'Incorrect',
+				hide: false
+			});
+
+			$('#orTest .subject').dependsOn({
+				'#orTest input[name="xtraCheese"]': {
+					checked: true
+				}
+			}, {
+				hide: false
+			}).or({
+				'#orTest select': {
+					not: ['select']
+				}
+			});
+
+			var isClicked = false;
+
+			var customQualifierTest = $('#customQualifierTest .subject').dependsOn({
+				'#customQualifierTest input[type="checkbox"]': {
+					checked: true,
+					// Custom qualifier returns the value of the global variable `isClicked`.
+					clicked: function( val ) {
+						return isClicked;
+					}
+				}
+			}, {
+				hide: false
+			});
+
+			$('#customQualifierTest .clickMe').toggle(function() {
+				isClicked = true;
+				// Force dependencies to be checked.
+				customQualifierTest.check();
+				return false;
+			}, function() {
+				isClicked = false;
+				// Force dependencies to be checked.
+				customQualifierTest.check();
+				return false;
+			});
+
+			$('#callbackTest .subject').dependsOn({
+				'#callbackTest input[type="checkbox"]': {
+					checked: true
+				}
+			}, {
+				onEnable: function() {
+					window.alert('Hello, world!');
+				}
+			});
+
+			$('#valueTargetTest .subject').dependsOn({
+				'#valueTargetTest select': {
+					values: ['married', 'widowed']
+				}
+			}, {
+				valueTarget: '#valueTargetTest .salutation',
+				valueOnEnable: 'Mrs.',
+				valueOnDisable: '',
+				hide: false
+			});
+
+		} );
+
+		</script>
+
+	</body>
+
+</html>
