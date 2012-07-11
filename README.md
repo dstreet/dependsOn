@@ -12,7 +12,7 @@ $( subject ).**dependsOn**( dependencySet, [options] );
 
 **Include dependsOn**
 
-```<script type="text/javascript" src="dependsOn.min.js"></script>```
+```<script type="text/javascript" src="dependsOn-1.0.0.min.js"></script>```
 
 **Add form components**
 
