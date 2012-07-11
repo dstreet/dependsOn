@@ -3,6 +3,10 @@ A jQuery plugin to facilitate the handling of form field dependencies.
 
 $( subject ).**dependsOn**( dependencySet, [options] );
 
+## Examples
+
+[Demo](http://dstreet.github.com/dependsOn)
+
 ## Usage
 
 **Include jQuery (requires v1.7 or higher)**
