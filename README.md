@@ -20,7 +20,7 @@ $( subject ).**dependsOn**( dependencySet, [options] );
 
 **Add form components**
 
-```
+```html
 <form id="myForm">
 	<label for="myCheck">Check Me</label>
 	<input type="checkbox" id="myCheck">
@@ -32,7 +32,7 @@ $( subject ).**dependsOn**( dependencySet, [options] );
 
 **Activate plugin**
 
-```
+```js
 $('#myText').dependsOn({
 	// The selector for the depenency
 	'#myCheck': {
