@@ -68,3 +68,8 @@ $('#myText').dependsOn({
 * `checkOnDisable`: (Boolean) If true, "checked" attribute will be added to subject when disabled. If false, "checked" attribute will be removed from subject when disabled. For checkboxes and radio buttons.
 * `valueTarget`: (String) jQuery selector for the object to you want to target for editing the value. Use if you want to alter the value of something other than the subject.
 * `toggleClass`: (String) The class you wish to be appended to the subject when enabled. The class will be removed when the subject is disabled.
+
+## TODO
+
+* Add a range qualifier that will check if the input value is within a numerical range. Might accept an array with three values similar to the arguments for the Python [range](http://docs.python.org/library/functions.html#range) function.
+* Trigger the "change" event when the subject values are altered.
