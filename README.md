@@ -1,7 +1,7 @@
 # dependsOn
 A jQuery plugin to facilitate the handling of form field dependencies.
 
-$( subject ).**dependsOn**( dependencySet, [options] );
+$( subject ).dependsOn( dependencySet, [options] );
 
 ## Examples
 
