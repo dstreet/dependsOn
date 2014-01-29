@@ -544,7 +544,7 @@
 		}
 
 		// User callback
-		this.settings.onDisable();
+		this.settings.onDisable.call(this.triggeredDependency, this.triggeredEvent);
 	};
 
 
