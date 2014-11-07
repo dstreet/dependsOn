@@ -1,4 +1,4 @@
-/**
+/*!
  * dependsOn v1.0.1
  * a jQuery plugin to facilitate the handling of form field dependencies.
  *
