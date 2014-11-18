@@ -46,7 +46,7 @@ $('#myText').dependsOn({
 ## Qualifiers
 
 * `enabled`: (Boolean) If true, then dependency must not have the "disabled" attribute.
-* `checked`: (Boolean) If true, then dependency must not have the "checked" attribute. Used for checkboxes and radio buttons.
+* `checked`: (Boolean) If true, then dependency must not have the "checked" attribute. Used for checkboxes only.
 * `values`: (Array) Dependency value must equal one of the provided values.
 * `not`: (Array) Dependency value must not equal any of the provided values.
 * `match`: (RegEx) Dependency value must match the regular expression.
