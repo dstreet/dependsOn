@@ -318,9 +318,6 @@
 			 * toggleClass: string
 			 */
 
-		this.enableCallback = function() {};
-		this.disableCallback = function() {};
-
 		this.init( initalSet );
 	};
 
@@ -401,6 +398,68 @@
 		return this;
 	};
 
+
+	/**
+	 * Get the element to be used when modifying the value on enable or disable
+	 *
+	 * @function getValueTarget
+	 * @returns {Object} jQuery object
+	 */
+	DependencyCollection.prototype.getValueTarget = function() {
+		var $valueTarget = this.$subject;
+
+		if ( this.settings.hasOwnProperty('valueTarget') && this.settings.valueTarget != undefined) {
+			$valueTarget = $(this.settings.valueTarget);
+
+		// If the subject is not a form field, then look for one within the subject
+		} else if ( this.$subject[0].nodeName.toLowerCase() !== 'input' && 
+			this.$subject[0].nodeName.toLowerCase() !== 'textarea' &&
+			this.$subject[0].nodeName.toLowerCase() !== 'select') {
+
+			$valueTarget = this.$subject.find( 'input, textarea, select' );
+		}
+
+		return $valueTarget;
+	};
+
+
+	/**
+	 * Toggle the display on enable or disable
+	 *
+	 * @function toggleSubjectDisplay
+	 */
+	DependencyCollection.prototype.toggleSubjectDisplay = function(show, noFade) {
+		// TODO: Need to look for name as well.
+		var subjectId = this.$subject.attr( 'id' )
+			, $hideObject;
+
+		// If the subject's parent is a label
+		if ( this.$subject.parent()[0].nodeName.toLowerCase() === 'label' ) {
+			$hideObject = this.$subject.parent();
+		} else {
+			$hideObject = this.$subject.add( 'label[for="' + subjectId + '"]' )
+		}
+
+		if (show && $hideObject.css('display') === 'none' ) {
+			if (noFade) {
+				// Show the input and it's label (if exists)
+				$hideObject.show();
+			} else {
+				// Fade in the input and it's label (if exists)
+				$hideObject.fadeIn( this.settings.duration );
+			}
+		} else if (!show) {
+			if (noFade) {
+				// Hide the input and it's label (if exists)
+				$hideObject.css({ 'display': 'none' });
+			} else {
+				// Fade out the input and it's label (if exists)
+				$hideObject.fadeOut( this.settings.duration );
+			}
+		}
+	};
+
+
 	/**
 	 * Enable the subject.
 	 *
@@ -408,21 +467,9 @@
 	 * @param {Boolean} noFade Whether or not to fade the subject or immediately show it.
 	 */
 	DependencyCollection.prototype.enable = function ( noFade ) {
-		var valueSubject = this.$subject
+		var $valueTarget = this.getValueTarget()
 			, subjectId = this.$subject.attr( 'id' )
 			, $hideObject;
-
-		// If the value target has been specified by the user
-		if ( this.settings.hasOwnProperty('valueTarget') && this.settings.valueTarget !== undefined) {
-			valueSubject = $( this.settings.valueTarget );
-
-		// If the subject is not a form field, then look for one within the subject
-		} else if ( this.$subject[0].nodeName.toLowerCase() !== 'input' && 
-			this.$subject[0].nodeName.toLowerCase() !== 'textarea' &&
-			this.$subject[0].nodeName.toLowerCase() !== 'select') {
-
-			valueSubject = this.$subject.find( 'input, textarea, select' );
-		}
 
 		// Remove the disabled attribute from the subject if allowed by the settings
 		if ( this.settings.disable ) {
@@ -431,38 +478,20 @@
 
 		// Show the subject if allowed by the settings
 		if ( this.settings.hide ) {
-
-			// If the subject's parent is a label
-			if ( this.$subject.parent()[0].nodeName.toLowerCase() === 'label' ) {
-				$hideObject = this.$subject.parent();
-			} else {
-				$hideObject = this.$subject.add( 'label[for="' + subjectId + '"]' )
-			}
-
-			if ( $hideObject.css('display') === 'none' ) {
-				if ( noFade ) {
-
-					// Show the input and it's label (if exists)
-					$hideObject.show();
-				} else {
-
-					// Fade in the input and it's label (if exists)
-					$hideObject.fadeIn( this.settings.duration );
-				}
-			}
+			this.toggleSubjectDisplay(true, noFade);
 		}
 
 		// Set the value of the subject if allowed by the settings
 		if ( this.settings.hasOwnProperty('valueOnEnable') && this.settings.valueOnEnable !== undefined ) {
-			valueSubject.val( this.settings.valueOnEnable );
+			$valueTarget.val( this.settings.valueOnEnable );
 		}
 
 		// Add/remove the checked attribute of the subject if allowed by the settings
 		if ( this.settings.hasOwnProperty('checkOnEnable') ) {
 			if ( this.settings.checkOnEnable ) {
-				valueSubject.attr( 'checked', 'checked' );
+				$valueTarget.attr( 'checked', 'checked' );
 			} else {
-				valueSubject.removeAttr( 'checked' );
+				$valueTarget.removeAttr( 'checked' );
 			}
 		}
 
@@ -482,21 +511,9 @@
 	 * @param {Boolean} noFade Whether or not to fade the subject or immediately hide it.
 	 */
 	DependencyCollection.prototype.disable = function ( noFade ) {
-		var valueSubject = this.$subject
+		var $valueTarget = this.getValueTarget()
 			, subjectId = this.$subject.attr( 'id' )
 			, $hideObject;
-
-		// If the value target has been specified by the user
-		if ( this.settings.hasOwnProperty('valueTarget') && this.settings.valueTarget !== undefined) {
-			valueSubject = $( this.settings.valueTarget );
-
-		// If the subject is not a form field, then look for one within the subject
-		} else if ( this.$subject[0].nodeName.toLowerCase() !== 'input' &&
-			this.$subject[0].nodeName.toLowerCase() !== 'textarea' &&
-			this.$subject[0].nodeName.toLowerCase() !== 'select') {
-
-			valueSubject = this.$subject.find( 'input, textarea, select' );
-		}
 
 		// Add the disabled attribute from the subject if allowed by the settings
 		if ( this.settings.disable ) {
@@ -505,36 +522,20 @@
 
 		// Hide the subject if allowed by the settings
 		if ( this.settings.hide ) {
-
-			// If the subject's parent is a label
-			if ( this.$subject.parent()[0].nodeName.toLowerCase() === 'label' ) {
-				$hideObject = this.$subject.parent();
-			} else {
-				$hideObject = this.$subject.add( 'label[for="' + subjectId + '"]' )
-			}
-
-			if ( noFade ) {
-
-				// Hide the input and it's label (if exists)
-				$hideObject.css({ 'display': 'none' });
-			} else {
-
-				// Fade out the input and it's label (if exists)
-				$hideObject.fadeOut( this.settings.duration );
-			}
+			this.toggleSubjectDisplay(false, noFade);
 		}
 
 		// Set the value of the subject if allowed by the settings
 		if ( this.settings.hasOwnProperty('valueOnDisable') && this.settings.valueOnDisable !== undefined ) {
-			valueSubject.val( this.settings.valueOnDisable );
+			$valueTarget.val( this.settings.valueOnDisable );
 		}
 
 		// Add/remove the checked attribute of the subject if allowed by the settings
 		if ( this.settings.hasOwnProperty('checkOnDisable') ) {
 			if ( this.settings.checkOnDisable ) {
-				valueSubject.attr( 'checked', 'checked' );
+				$valueTarget.attr( 'checked', 'checked' );
 			} else {
-				valueSubject.removeAttr( 'checked' );
+				$valueTarget.removeAttr( 'checked' );
 			}
 		}
 
