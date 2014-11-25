@@ -63,7 +63,7 @@
 			// Checkbox is not checked and the `checked` qualifier is set to true
 			// or the checkbox is checked and the `checked` qualifier is set to false
 			if ( (!this.$dependencyObj.is(':checked') && checkAgainst) ||
-				(this.$dependencyObj.is(':checked') && !checkAgainst ) ) {
+				(this.$dependencyObj.is(':checked') && !checkAgainst) ) {
 
 				return false;
 			}
@@ -115,7 +115,7 @@
 
 
 	/**
-	 * Qualifier method which the dependency input value against an array of
+	 * Qualifier method which checks the dependency input value against an array of
 	 * blacklisted values.
 	 * 
 	 * @function not
@@ -192,7 +192,7 @@
 	 * @returns {Boolean}
 	 */
 	Dependency.prototype.email = function ( checkAgainst ) {
-		var emailPattern = /^[_a-zA-Z0-9\-]+(\.[_a-zA-Z0-9\-]+)*@[a-zA-Z0-9\-]+(\.[a-zA-Z0-9\-]+)*\.(([0-9]{1,3})|([a-zA-Z]{2,3})|(aero|coop|info|museum|name))$/;
+		var emailPattern = /^[_a-zA-Z0-9\-\+]+(\.[_a-zA-Z0-9\-\+]+)*@[a-zA-Z0-9\-]+(\.[a-zA-Z0-9\-]+)*\.(([0-9]{1,3})|([a-zA-Z]{2,3})|(aero|coop|info|museum|name))$/;
 
 		return ( this.match(emailPattern) === checkAgainst );
 	};
@@ -207,7 +207,7 @@
 	 * @returns {Boolean}
 	 */
 	Dependency.prototype.url = function ( checkAgainst ) {
-		var urlPattern = /(((http|ftp|https):\/\/)|www\.)[\w\-_]+(\.[\w\-_]+)+([\w\-\.,@?\^=%&:\/~\+#!]*[\w\-\@?\^=%&\/~\+#])?/g;
+		var urlPattern = /(((http|ftp|https):\/\/)|www\.)[\w\-_]+(\.[\w\-_]+)+([\w\-\.,@?\^=%&:\/~\+#!]*[\w\-\@?\^=%&\/~\+#])?/;
 
 		return ( this.match(urlPattern) === checkAgainst );
 	};
@@ -363,7 +363,7 @@
 			dependency = this.dependencySets[thisSet].dependencies[d];
 
 			// Register change event
-			dependency.$dependencyObj.on('change', function(e) {
+			dependency.$dependencyObj.on('change.dependsOn', function(e) {
 				self.triggeredEvent = e;
 				self.triggeredDependency = this;
 				self.check();
@@ -594,5 +594,9 @@
 		return dependencyCollection;
 
 	};
+
+	window.DependencyCollection = DependencyCollection;
+	window.DependencySet = DependencySet;
+	window.Dependency = Dependency;
 
 })( jQuery );
