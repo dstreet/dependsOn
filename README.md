@@ -16,7 +16,7 @@ $( subject ).dependsOn( dependencySet, [options] );
 
 **Include dependsOn**
 
-```<script type="text/javascript" src="dependsOn-1.0.0.min.js"></script>```
+```<script type="text/javascript" src="dependsOn.min.js"></script>```
 
 **Add form components**
 
@@ -60,6 +60,7 @@ $('#myText').dependsOn({
 * `disable`: (Boolean) Add "disabled" attribute to the subject's form field. **Default**: true
 * `hide`: (Boolean) Hide the subject on disable and reveal the subject on enable. **Default**: true
 * `duration`: (Number) The time in milliseconds for the fade transition. Used only if `hide` is set to true. **Default**: 200
+* `trigger`: (String) The event used to check dependencies. **Default**: 'change'
 * `onEnable`: (Function) The callback function to execute when the subject has been enabled. **Default**: Empty Function
 * `onDisable`: (Function) The callback function to execute when the subject has been disabled. **Default**: Empty Function
 * `valueOnEnable`: (String) The value to set the subject to when enabled.

@@ -621,6 +621,10 @@ describe('DependencyCollection', function() {
 			expect(depColl).to.haveOwnProperty('settings');
 			expect(depColl.settings.hide).to.be.false;
 		});
+
+		it('should namespace the event trigger', function() {
+			expect(depColl.settings.trigger).to.contain('.dependsOn');
+		})
 	});
 
 	describe('addSet(set)', function() {

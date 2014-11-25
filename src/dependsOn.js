@@ -303,6 +303,7 @@
 				disable: true,
 				hide: true,
 				duration: 200,
+				trigger: 'change',
 				onEnable: function() {},
 				onDisable: function() {}
 			}, options);
@@ -317,6 +318,9 @@
 			 * valueTarget: selector (string)
 			 * toggleClass: string
 			 */
+
+		// Namespace the trigger event
+		this.settings.trigger += (this.settings.trigger.search('.dependsOn') > -1) ? '' :  '.dependsOn';
 
 		this.init( initalSet );
 	};
@@ -359,8 +363,8 @@
 		for ( d; d < numDependencies; d += 1 ) {
 			dependency = this.dependencySets[thisSet].dependencies[d];
 
-			// Register change event
-			dependency.$dependencyObj.on('change.dependsOn', function(e) {
+			// Register event trigger
+			dependency.$dependencyObj.on(this.settings.trigger, function(e) {
 				self.triggeredEvent = e;
 				self.triggeredDependency = this;
 				self.check();
