@@ -127,6 +127,11 @@
 			, length = checkAgainst.length
 			, i = 0;
 
+		// If dependency is a radio group, then filter by `:checked`
+		if ( this.$dependencyObj.attr('type') === 'radio' ) {
+			dependencyValue = this.$dependencyObj.filter(':checked').val();
+		}
+
 		// Loop through list of blacklisted values. Break when we find a match.
 		for ( i; i < length; i += 1 ) {
 			if ( checkAgainst[i] === dependencyValue ) {
