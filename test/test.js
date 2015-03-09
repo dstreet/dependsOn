@@ -35,7 +35,7 @@ describe('Dependency', function() {
 		before(function() {
 			$(document.body).append('<input type="text" id="dependency">')
 			dep = new Dependency('#dependency', {
-				'enabled': true	
+				'enabled': true
 			});
 		});
 
@@ -65,7 +65,7 @@ describe('Dependency', function() {
 		before(function() {
 			$(document.body).append('<input type="text" id="dependency">')
 			dep = new Dependency('#dependency', {
-				'enabled': true	
+				'enabled': true
 			});
 		});
 
@@ -110,7 +110,7 @@ describe('Dependency', function() {
 		before(function() {
 			$(document.body).append('<input type="checkbox" id="dependency">')
 			dep = new Dependency('#dependency', {
-				'checked': true	
+				'checked': true
 			});
 		});
 
@@ -155,7 +155,7 @@ describe('Dependency', function() {
 		before(function() {
 			$(document.body).append('<input type="text" id="dependency">')
 			dep = new Dependency('#dependency', {
-				'values': ['test', 'field', 'text']	
+				'values': ['test', 'field', 'text']
 			});
 		});
 
@@ -199,7 +199,7 @@ describe('Dependency', function() {
 				<input type="radio" name="dependency" class="r2" value="foobar">\
 			');
 			dep = new Dependency('[name="dependency"]', {
-				'values': ['test', 'field', 'text']	
+				'values': ['test', 'field', 'text']
 			});
 		});
 
@@ -228,6 +228,49 @@ describe('Dependency', function() {
 			dep.$dependencyObj.filter('.r2').prop('checked', true);
 			expect(dep.doesQualify()).to.be.false;
 		});
+	});
+
+	describe('values(whitelist) with select field', function() {
+		var dep;
+
+		before(function() {
+			$(document.body).append('\
+				<select id="dependency">\
+					<option class="opt1" value="opt1"></option>\
+					<option class="opt2" value="opt2"></option>\
+				</select>\
+			');
+			dep = new Dependency('#dependency', {
+				'values': ['opt1']
+			});
+		});
+
+		after(function() {
+			$('#dependency').remove();
+		});
+
+		it('should return true if the value of the select field is in the array of whitelisted values', function() {
+			var values = ['opt1'];
+			dep.$dependencyObj.val('opt1');
+			expect(dep.values(values)).to.be.true;
+		});
+
+		it('should return false if the value of the select field is not in the array of whitelisted values', function() {
+			var values = ['opt1'];
+			dep.$dependencyObj.val('opt2');
+			expect(dep.values(values)).to.be.false;
+		});
+
+		it('should qualify if the value of the select field is in the array of whitelisted values', function() {
+			dep.$dependencyObj.val('opt1');
+			expect(dep.doesQualify()).to.be.true;
+		});
+
+		it('should not qualify if the value of the select field is in the array of whitelisted values', function() {
+			dep.$dependencyObj.val('opt2');
+			expect(dep.doesQualify()).to.be.false;
+		});
+
 	});
 
 	describe('not(param)', function() {
@@ -559,7 +602,7 @@ describe('DependencySet', function() {
 					<input type="text" id="dep1">\
 					<input type="checkbox" id="dep2">\
 					<select id="dep3">\
-						<option>opt</option>\
+						<option value="test">opt</option>\
 					</select>\
 				</div>\
 			');
@@ -814,7 +857,7 @@ describe('DependencyCollection', function() {
 			}, {
 				valueOnEnable: 'testing'
 			});
-			
+
 			depColl.enable();
 			setTimeout(function() {
 				expect($('#test-input').val()).to.equal('testing');
@@ -830,7 +873,7 @@ describe('DependencyCollection', function() {
 			}, {
 				checkOnEnable: true
 			});
-			
+
 			depColl.enable();
 			setTimeout(function() {
 				expect($('#test-check').is('[checked]')).to.be.true;
@@ -846,7 +889,7 @@ describe('DependencyCollection', function() {
 			}, {
 				toggleClass: 'enabled'
 			});
-			
+
 			depColl.enable();
 			setTimeout(function() {
 				expect($('#test-submit').hasClass('enabled')).to.be.true;
@@ -925,7 +968,7 @@ describe('DependencyCollection', function() {
 			}, {
 				valueOnDisable: 'testing'
 			});
-			
+
 			depColl.disable();
 			setTimeout(function() {
 				expect($('#test-input').val()).to.equal('testing');
@@ -941,7 +984,7 @@ describe('DependencyCollection', function() {
 			}, {
 				checkOnDisable: false
 			});
-			
+
 			depColl.disable();
 			setTimeout(function() {
 				expect($('#test-check').is('[checked]')).to.be.false;
@@ -957,7 +1000,7 @@ describe('DependencyCollection', function() {
 			}, {
 				toggleClass: 'enabled'
 			});
-			
+
 			depColl.disable();
 			setTimeout(function() {
 				expect($('#test-submit').hasClass('enabled')).to.be.false;

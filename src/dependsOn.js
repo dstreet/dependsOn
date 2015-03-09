@@ -1,5 +1,5 @@
 /*!
- * dependsOn v1.1.1
+ * dependsOn v1.1.2
  * a jQuery plugin to facilitate the handling of form field dependencies.
  *
  * Copyright 2014 David Street
@@ -24,7 +24,7 @@
 
 	/**
 	 * Qualifier method which checks for the `disabled` attribute.
-	 * 
+	 *
 	 * @function enabled
 	 * @param checkAgainst The value we are checking.
 	 * @returns {Boolean}
@@ -50,7 +50,7 @@
 
 	/**
 	 * Qualifier method which checks for the `checked` attribute on checkboxes and radio buttons.
-	 * 
+	 *
 	 * @function checked
 	 * @param checkAgainst The value we are checking.
 	 * @returns {Boolean}
@@ -72,11 +72,11 @@
 		return true;
 	};
 
-	
+
 	/**
 	 * Qualifier method which checks the dependency input value against an array of
 	 * whitelisted values.
-	 * 
+	 *
 	 * @function values
 	 * @param checkAgainst The value we are checking.
 	 * @returns {Boolean}
@@ -94,7 +94,7 @@
 
 		// Loop through list of accepted values. Break when we find a match.
 		for ( i; i < length; i += 1 ) {
-			if ( typeof(dependencyValue) === 'array' || typeof(dependencyValue) === 'object' ) {
+			if ( dependencyValue != null && (typeof(dependencyValue) === 'array' || typeof(dependencyValue) === 'object') ) {
 
 				// If `dependencyValue` is an array then check to see if arrays match
 				if ( $(this.$dependencyObj.val()).not($(checkAgainst[i])).length === 0 &&
@@ -107,7 +107,7 @@
 					match = true;
 					break;
 				}
-			}	
+			}
 		}
 
 		return match;
@@ -117,7 +117,7 @@
 	/**
 	 * Qualifier method which checks the dependency input value against an array of
 	 * blacklisted values.
-	 * 
+	 *
 	 * @function not
 	 * @param checkAgainst The value we are checking.
 	 * @returns {Boolean}
@@ -142,10 +142,10 @@
 		return true;
 	};
 
-	
+
 	/**
 	 * Qualifier method which runs a RegEx pattern match on the dependency input value.
-	 * 
+	 *
 	 * @function match
 	 * @param checkAgainst The value we are checking.
 	 * @returns {Boolean}
@@ -163,7 +163,7 @@
 	 * Used for select inputs with the `multiple` attribute.
 	 * If `dependencyValue` is not an array or object, then method will fallback
 	 * to the `values` method.
-	 * 
+	 *
 	 * @function contains
 	 * @param checkAgainst The value we are checking.
 	 * @returns {Boolean}
@@ -189,9 +189,9 @@
 
 
 	/**
-	 * Qualifier method which is a shortcut qualifier uses `match` method to check if value is an 
+	 * Qualifier method which is a shortcut qualifier uses `match` method to check if value is an
 	 * email address.
-	 * 
+	 *
 	 * @function email
 	 * @param checkAgainst The value we are checking.
 	 * @returns {Boolean}
@@ -204,9 +204,9 @@
 
 
 	/**
-	 * Qualifier method which is a shortcut qualifier uses `match` method to check if value is a 
+	 * Qualifier method which is a shortcut qualifier uses `match` method to check if value is a
 	 * URL.
-	 * 
+	 *
 	 * @function url
 	 * @param checkAgainst The value we are checking.
 	 * @returns {Boolean}
@@ -219,7 +219,7 @@
 
 	/**
 	 * Checks the Dependency against all of it's qualifiers.
-	 * 
+	 *
 	 * @function doesQualify
 	 * @returns {Boolean}
 	 */
@@ -260,7 +260,7 @@
 		var d = 0;
 
 		this.dependencies = [];
-		
+
 		for ( d in dependencies ) {
 			this.dependencies.push( new Dependency(d, dependencies[d]) );
 		}
@@ -289,7 +289,7 @@
 		return qualifies;
 	};
 
-	
+
 	/**
 	 * Creates a new DependencyCollection
 	 *
@@ -302,7 +302,7 @@
 	var DependencyCollection = function ( $subject, initalSet, options ) {
 		this.dependencySets = [];
 		this.$subject = $subject;
- 		
+
  		// Extend default settings with the provided options
 		this.settings = $.extend({
 				disable: true,
@@ -330,7 +330,7 @@
 		this.init( initalSet );
 	};
 
-	
+
 	/**
 	 * Initaialize the collection by adding the intial dependencySet
 	 * and running the first check.
@@ -391,7 +391,7 @@
 		}
 	};
 
-	
+
 	/**
 	 * Public method to add a new DependencySet to the stack.
 	 *
@@ -421,7 +421,7 @@
 			$valueTarget = $(this.settings.valueTarget);
 
 		// If the subject is not a form field, then look for one within the subject
-		} else if ( this.$subject[0].nodeName.toLowerCase() !== 'input' && 
+		} else if ( this.$subject[0].nodeName.toLowerCase() !== 'input' &&
 			this.$subject[0].nodeName.toLowerCase() !== 'textarea' &&
 			this.$subject[0].nodeName.toLowerCase() !== 'select') {
 
