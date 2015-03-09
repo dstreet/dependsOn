@@ -234,56 +234,36 @@ describe('Dependency', function() {
 		var dep;
 
 		before(function() {
-			$(document.body).append('<input type="text" id="dependency">');
-			$(document.body).append('\
-				<input type="radio" name="radio-dependency" class="r1" value="radio-val1">\
-				<input type="radio" name="radio-dependency" class="r2" value="radio-val2">\
-			');
+			$(document.body).append('<input type="text" id="dependency">')
 			dep = new Dependency('#dependency', {
 				'not': ['test', 'field', 'text']
-			});
-			radioDep = new Dependency('[name="radio-dependency"]', {
-				'not': ['radio-val2']
 			});
 		});
 
 		after(function() {
 			$('#dependency').remove();
-			$('[name="radio-dependency"]').remove();
-		});
-
-		afterEach(function() {
-			$('[name="radio-dependency"]').prop('checked', false);
 		});
 
 		it('should return true if the field value is not in the array of blacklisted values', function() {
 			var values = ['test', 'field', 'text'];
 			dep.$dependencyObj.val('foobar');
-			radioDep.$dependencyObj.filter('.r1').prop('checked', true);
 			expect(dep.not(values)).to.be.true;
-			expect(radioDep.not(['radio-val2'])).to.be.true;
 		});
 
 		it('should return false if the field value is in the array of blacklisted values', function() {
 			var values = ['test', 'field', 'text'];
 			dep.$dependencyObj.val('test');
-			radioDep.$dependencyObj.filter('.r2').prop('checked', true);
 			expect(dep.not(values)).to.be.false;
-			expect(radioDep.not(['radio-val2'])).to.be.false;
 		});
 
 		it('should qualify if the field value is not in the array of blacklisted values', function() {
 			dep.$dependencyObj.val('foobar');
-			radioDep.$dependencyObj.filter('.r1').prop('checked', true);
 			expect(dep.doesQualify()).to.be.true;
-			expect(radioDep.doesQualify()).to.be.true;
 		});
 
 		it('should not qualify if the field value is in the array of blacklisted values', function() {
 			dep.$dependencyObj.val('test');
-			radioDep.$dependencyObj.filter('.r2').prop('checked', true);
 			expect(dep.doesQualify()).to.be.false;
-			expect(radioDep.doesQualify()).to.be.false;
 		});
 	});
 
