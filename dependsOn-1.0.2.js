@@ -1,9 +1,9 @@
-/**
- * dependsOn v1.0.1
+/*!
+ * dependsOn v1.0.2
  * a jQuery plugin to facilitate the handling of form field dependencies.
  *
- * Copyright 2014 David Street
- * Licensed under the MIT license.
+ * Copyright (c) 2015 David Street
+ * @license the MIT license.
  */
 
 (function ($) {
