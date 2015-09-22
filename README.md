@@ -73,3 +73,7 @@ $('#myText').dependsOn({
 
 * Add a range qualifier that will check if the input value is within a numerical range. Might accept an array with three values similar to the arguments for the Python [range](http://docs.python.org/library/functions.html#range) function.
 * Trigger the "change" event when the subject values are altered.
+
+## Other Libraries
+
+* [rails_depends_on](https://github.com/francescob/rails_depends_on) - Rails Gem for dependsOn
