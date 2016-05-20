@@ -3,13 +3,39 @@
 jest
 	.unmock('jquery')
 	.unmock('../src/dependency')
+	.unmock('events')
 
 const Dependency = require('../src/dependency')
 
 describe('Dependency()', () => {
+	afterEach(() => {
+		document.body.innerHTML = ''
+	})
 
-	xit('should emit a `change` event when qualified status changes', () => {
+	it('should emit a `change` event when qualified status changes', () => {
+		document.body.innerHTML =
+			'<input id="text-field" type="text" value="fail">'
 
+		const textField = document.getElementById('text-field')
+		const mockHandler = jest.fn()
+		const dep = new Dependency('#text-field', {
+			values: ['pass']
+		})
+
+		dep.on('change', mockHandler)
+		dep.runCheck()
+		expect(mockHandler.mock.calls.length).toBe(1)
+		expect(mockHandler.mock.calls[0][0].qualified).toBe(false)
+
+		textField.value = 'pass'
+		dep.runCheck()
+		expect(mockHandler.mock.calls.length).toBe(2)
+		expect(mockHandler.mock.calls[1][0].qualified).toBe(true)
+
+		textField.value = 'fail'
+		dep.runCheck()
+		expect(mockHandler.mock.calls.length).toBe(3)
+		expect(mockHandler.mock.calls[2][0].qualified).toBe(false)
 	})
 
 	describe('enabled()', () => {
@@ -298,29 +324,29 @@ describe('Dependency()', () => {
 			const dep = new Dependency('#text-field')
 
 			field.value = 'test@testing.com'
-			dep.trigger()
+			dep.runCheck()
 			expect(dep.email(true)).toBeTruthy()
 			field.value = 'test@testing.net'
-			dep.trigger()
+			dep.runCheck()
 			expect(dep.email(true)).toBeTruthy()
 			field.value = 'test@testing.info'
-			dep.trigger()
+			dep.runCheck()
 			expect(dep.email(true)).toBeTruthy()
 			field.value = 'test@testing.io'
-			dep.trigger()
+			dep.runCheck()
 			expect(dep.email(true)).toBeTruthy()
 			field.value = 'test+123@testing.com'
-			dep.trigger()
+			dep.runCheck()
 			expect(dep.email(true)).toBeTruthy()
 
 			field.value = 'test-testing.com'
-			dep.trigger()
+			dep.runCheck()
 			expect(dep.email(true)).toBeFalsy()
 			field.value = 'test@test@ing.com'
-			dep.trigger()
+			dep.runCheck()
 			expect(dep.email(true)).toBeFalsy()
 			field.value = 'test@testing.foobar'
-			dep.trigger()
+			dep.runCheck()
 			expect(dep.email(true)).toBeFalsy()
 		})
 
@@ -333,29 +359,29 @@ describe('Dependency()', () => {
 			const dep = new Dependency('#text-field')
 
 			field.value = 'test@testing.com'
-			dep.trigger()
+			dep.runCheck()
 			expect(dep.email(false)).toBeFalsy()
 			field.value = 'test@testing.net'
-			dep.trigger()
+			dep.runCheck()
 			expect(dep.email(false)).toBeFalsy()
 			field.value = 'test@testing.info'
-			dep.trigger()
+			dep.runCheck()
 			expect(dep.email(false)).toBeFalsy()
 			field.value = 'test@testing.io'
-			dep.trigger()
+			dep.runCheck()
 			expect(dep.email(false)).toBeFalsy()
 			field.value = 'test+123@testing.com'
-			dep.trigger()
+			dep.runCheck()
 			expect(dep.email(false)).toBeFalsy()
 
 			field.value = 'test-testing.com'
-			dep.trigger()
+			dep.runCheck()
 			expect(dep.email(false)).toBeTruthy()
 			field.value = 'test@test@ing.com'
-			dep.trigger()
+			dep.runCheck()
 			expect(dep.email(false)).toBeTruthy()
 			field.value = 'test@testing.foobar'
-			dep.trigger()
+			dep.runCheck()
 			expect(dep.email(false)).toBeTruthy()
 		})
 	})
@@ -374,26 +400,26 @@ describe('Dependency()', () => {
 			const dep = new Dependency('#text-field')
 
 			field.value = 'http://www.test.com'
-			dep.trigger()
+			dep.runCheck()
 			expect(dep.url(true)).toBeTruthy()
 			field.value = 'https://www.test.com'
-			dep.trigger()
+			dep.runCheck()
 			expect(dep.url(true)).toBeTruthy()
 			field.value = 'www.test.com'
-			dep.trigger()
+			dep.runCheck()
 			expect(dep.url(true)).toBeTruthy()
 
 			field.value = 'htp://testing.com'
-			dep.trigger()
+			dep.runCheck()
 			expect(dep.url(true)).toBeFalsy()
 			field.value = '//test.com'
-			dep.trigger()
+			dep.runCheck()
 			expect(dep.url(true)).toBeFalsy()
 			field.value = 'test.com'
-			dep.trigger()
+			dep.runCheck()
 			expect(dep.url(true)).toBeFalsy()
 			field.value = 'https:///test.com'
-			dep.trigger()
+			dep.runCheck()
 			expect(dep.url(true)).toBeFalsy()
 		})
 
@@ -406,26 +432,26 @@ describe('Dependency()', () => {
 			const dep = new Dependency('#text-field')
 
 			field.value = 'http://www.test.com'
-			dep.trigger()
+			dep.runCheck()
 			expect(dep.url(false)).toBeFalsy()
 			field.value = 'https://www.test.com'
-			dep.trigger()
+			dep.runCheck()
 			expect(dep.url(false)).toBeFalsy()
 			field.value = 'www.test.com'
-			dep.trigger()
+			dep.runCheck()
 			expect(dep.url(false)).toBeFalsy()
 
 			field.value = 'htp://testing.com'
-			dep.trigger()
+			dep.runCheck()
 			expect(dep.url(false)).toBeTruthy()
 			field.value = '//test.com'
-			dep.trigger()
+			dep.runCheck()
 			expect(dep.url(false)).toBeTruthy()
 			field.value = 'test.com'
-			dep.trigger()
+			dep.runCheck()
 			expect(dep.url(false)).toBeTruthy()
 			field.value = 'https:///test.com'
-			dep.trigger()
+			dep.runCheck()
 			expect(dep.url(false)).toBeTruthy()
 		})
 	})
