@@ -31,9 +31,10 @@ describe('DependencySet', () => {
 
 		set.on('change', mockHandler)
 
+		expect(set.qualified).toBe(false)
+
 		set.runCheck()
-		expect(mockHandler.mock.calls.length).toBe(1)
-		mockHandler.mockClear()
+		expect(mockHandler.mock.calls.length).toBe(0)
 
 		textField.value = 'pass'
 		set.runCheck()
@@ -64,10 +65,10 @@ describe('DependencySet', () => {
 
 		set.on('change', mockHandler)
 
+		expect(set.qualified).toBe(true)
+
 		set.runCheck()
-		expect(mockHandler.mock.calls.length).toBe(2)
-		expect(mockHandler.mock.calls[1][0].qualified).toBe(true)
-		mockHandler.mockClear()
+		expect(mockHandler.mock.calls.length).toBe(0)
 
 		textField.value = 'fail'
 		set.runCheck()

@@ -10,7 +10,6 @@ var Dependency   = require('./dependency')
 
 var DependencySet = function(dependencies) {
 	this.dependencies = []
-	this.qualified = null
 
 	// Keep track of how many dependencies are qualified.
 	// Qualified dependencies will add 1, unqualified dependencies will
@@ -27,6 +26,13 @@ var DependencySet = function(dependencies) {
 		newDep.on('change', getDepChangeHandler(newDep).bind(this))
 	}
 
+	this.doesQualify = function() {
+		return qualSum === this.dependencies.length
+	}
+
+	// Set initial state of the set
+	this.qualified = this.doesQualify()
+
 	function getDepChangeHandler(dep) {
 		return function(state) {
 			var prevState = this.qualified
@@ -36,14 +42,11 @@ var DependencySet = function(dependencies) {
 			if (this.qualified !== prevState) {
 				this.emit('change', {
 					triggerBy: dep,
+					e: state.e,
 					qualified: this.doesQualify()
 				})
 			}
 		}
-	}
-
-	this.doesQualify = function() {
-		return qualSum === this.dependencies.length
 	}
 }
 

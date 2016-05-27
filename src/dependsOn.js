@@ -10,50 +10,10 @@
 // $('#foo').will(doSomething).when('#bar').in(['bar', 'baz']).and('#blah').not('')
 
 var Dependency            = require('./dependency')
-// var DependencySet         = require('./dependency-set')
+var DependencySet         = require('./dependency-set')
 // var DependencyCollections = require('./dependency-collection')
 
 (function ($) {
-
-
-	/**
-	 * Creates a new DependencySet
-	 *
-	 * @class DependencySet
-	 * @param {Object} dependencies An object containing key-value pairs of selectors and qualifiers.
-	 */
-	var DependencySet = function ( dependencies ) {
-		var d = 0;
-
-		this.dependencies = [];
-
-		for ( d in dependencies ) {
-			this.dependencies.push( new Dependency(d, dependencies[d]) );
-		}
-	};
-
-
-	/**
-	 * Checks if each Dependency in the set qualifies.
-	 *
-	 * @function doesQualify
-	 * @returns {Boolean}
-	 */
-	DependencySet.prototype.doesQualify = function () {
-		var length = this.dependencies.length
-			, d = 0
-			, qualifies = true;
-
-		// Execute `doesQualify` method on each dependency
-		for ( d; d < length; d += 1 ) {
-			if ( !this.dependencies[d].doesQualify() ) {
-				qualifies = false;
-				break;
-			}
-		}
-
-		return qualifies;
-	};
 
 
 	/**

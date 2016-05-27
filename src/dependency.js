@@ -22,12 +22,13 @@ var Dependency = function(selector, qualifiers, trigger) {
 		'url'
 	]
 
-	this.qualified = null
+	// Set initial state of the dependency
+	this.qualified = this.doesQualify()
 
 	this.$ele.on(trigger, handler.bind(this))
 	this.runCheck = handler.bind(this)
 
-	function handler() {
+	function handler(e) {
 		var prevState = this.qualified
 
 		this.fieldState = getFieldState(this.$ele)
@@ -36,6 +37,7 @@ var Dependency = function(selector, qualifiers, trigger) {
 		if (this.qualified !== prevState) {
 			this.emit('change', {
 				selector: selector,
+				e: e,
 				qualified: this.qualified
 			})
 		}

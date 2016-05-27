@@ -24,18 +24,21 @@ describe('Dependency()', () => {
 
 		dep.on('change', mockHandler)
 		dep.runCheck()
-		expect(mockHandler.mock.calls.length).toBe(1)
-		expect(mockHandler.mock.calls[0][0].qualified).toBe(false)
+		expect(mockHandler.mock.calls.length).toBe(0)
 
 		textField.value = 'pass'
 		dep.runCheck()
-		expect(mockHandler.mock.calls.length).toBe(2)
-		expect(mockHandler.mock.calls[1][0].qualified).toBe(true)
+		expect(mockHandler.mock.calls.length).toBe(1)
+		expect(mockHandler.mock.calls[0][0].qualified).toBe(true)
 
 		textField.value = 'fail'
 		dep.runCheck()
-		expect(mockHandler.mock.calls.length).toBe(3)
-		expect(mockHandler.mock.calls[2][0].qualified).toBe(false)
+		expect(mockHandler.mock.calls.length).toBe(2)
+		expect(mockHandler.mock.calls[1][0].qualified).toBe(false)
+
+		textField.value = 'fail again'
+		dep.runCheck()
+		expect(mockHandler.mock.calls.length).toBe(2)
 	})
 
 	describe('enabled()', () => {
