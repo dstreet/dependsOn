@@ -12,12 +12,12 @@ $( subject ).dependsOn( dependencySet, [options] );
 ### with npm
 
 ```
-npm install --save depends-on
+npm install --save jquery-depends-on
 ```
 
 ### with Bower
 ```
-bower install --save depends-on
+bower install --save jquery-depends-on
 ```
 
 ### Build from source

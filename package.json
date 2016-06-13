@@ -1,5 +1,5 @@
 {
-  "name": "depends-on",
+  "name": "jquery-depends-on",
   "version": "1.2.0",
   "description": "A jQuery plugin to facilitate the handling of form field dependencies.",
   "main": "",
