@@ -1,13 +1,13 @@
 /* eslint-env jest, es6 */
 
 jest
-	.unmock('jquery')
 	.unmock('../src/dependency')
 	.unmock('events')
 
 const Dependency = require('../src/dependency')
 
 describe('Dependency()', () => {
+
 	afterEach(() => {
 		document.body.innerHTML = ''
 	})

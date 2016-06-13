@@ -4,7 +4,6 @@
  * Class which defines a set of dependencies
  */
 
-var $            = require('jquery')
 var EventEmitter = require('events').EventEmitter
 var Dependency   = require('./dependency')
 

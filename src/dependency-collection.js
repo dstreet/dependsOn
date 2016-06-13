@@ -6,7 +6,6 @@
  * when _any_ of the sets are qualified.
  */
 
-var $             = require('jquery')
 var EventEmitter  = require('events').EventEmitter
 
 var DependencyCollection = function() {

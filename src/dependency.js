@@ -4,7 +4,7 @@
  * Class which defines dependency qualifiers
  */
 
-var $            = require('jquery')
+
 var EventEmitter = require('events').EventEmitter
 
 var Dependency = function(selector, qualifiers, trigger) {
@@ -43,8 +43,6 @@ var Dependency = function(selector, qualifiers, trigger) {
 		}
 	}
 }
-
-module.exports = Dependency
 
 Dependency.prototype = $.extend({}, EventEmitter.prototype)
 
@@ -238,6 +236,8 @@ Dependency.prototype.doesQualify = function() {
 
 	return true
 }
+
+module.exports = Dependency
 
 /**
  * Get the current state of a field

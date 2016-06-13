@@ -5,7 +5,6 @@
  * dependency collection state.
  */
 
-var $					 = require('jquery')
 var DependencyCollection = require('./dependency-collection')
 var DependencySet        = require('./dependency-set')
 
