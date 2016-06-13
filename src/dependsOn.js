@@ -1,5 +1,5 @@
 /*!
- * dependsOn v1.1.2
+ * dependsOn v1.2.0
  * a jQuery plugin to facilitate the handling of form field dependencies.
  *
  * Copyright 2016 David Street
