@@ -136,7 +136,7 @@ describe('Dependency()', () => {
 				'<select id="select-field1" multiple>' +
 					'<option value="one"></option>' +
 					'<option value="two" selected></option>' +
-					'<option value="three" selected></option>' +
+					'<option value="three"></option>' +
 					'<option value="four"></option>' +
 				'</select>' +
 				'<select id="select-field2" multiple>' +
@@ -144,12 +144,19 @@ describe('Dependency()', () => {
 					'<option value="two"></option>' +
 					'<option value="three" selected></option>' +
 					'<option value="four"></option>' +
+				'</select>' +
+				'<select id="select-field3" multiple>' +
+					'<option value="one"></option>' +
+					'<option value="two" selected></option>' +
+					'<option value="three" selected></option>' +
+					'<option value="four"></option>' +
 				'</select>'
 
 			const whitelist = [['one', 'two'], ['two', 'three']]
 
-			expect((new Dependency('#select-field1')).values(whitelist)).toBeTruthy()
+			expect((new Dependency('#select-field1')).values(whitelist)).toBeFalsy()
 			expect((new Dependency('#select-field2')).values(whitelist)).toBeFalsy()
+			expect((new Dependency('#select-field3')).values(whitelist)).toBeTruthy()
 		})
 
 		it('should return true for a radio group only when its checked value is\

@@ -8,7 +8,7 @@ var $            = require('jquery')
 var EventEmitter = require('events').EventEmitter
 var Dependency   = require('./dependency')
 
-var DependencySet = function(dependencies) {
+var DependencySet = function(dependencies, trigger) {
 	this.dependencies = []
 
 	// Keep track of how many dependencies are qualified.
@@ -19,7 +19,7 @@ var DependencySet = function(dependencies) {
 	for (var d in dependencies) {
 		if (!dependencies.hasOwnProperty(d)) continue
 
-		var newDep = new Dependency(d, dependencies[d])
+		var newDep = new Dependency(d, dependencies[d], trigger)
 		this.dependencies.push(newDep)
 		qualSum += newDep.qualified ? 1 : 0
 

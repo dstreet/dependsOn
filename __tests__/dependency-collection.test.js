@@ -79,9 +79,12 @@ describe('DependencyCollection', () => {
 		document.body.innerHTML =
 			'<input id="text-field" type="text">' +
 			'<input id="check-field" type="checkbox">' +
-			'<input id="override-field" type="checkbox">'
+			'<select id="select-field">'+
+			'	<option value="one" selected></option>'+
+			'	<option value="two"></option>'+
+			'</select>'
 
-		const overrideField = document.getElementById('override-field')
+		const selectField = document.getElementById('select-field')
 		const mockHandler = jest.fn()
 		const collection = new DependencyCollection()
 		const set1 = new DependencySet({
@@ -89,7 +92,7 @@ describe('DependencyCollection', () => {
 			'#check-field': { checked: true }
 		})
 		const set2 = new DependencySet({
-			'#override-field': { checked: true }
+			'#select-field': { not: ['one'] }
 		})
 
 		collection.on('change', mockHandler)
@@ -100,7 +103,7 @@ describe('DependencyCollection', () => {
 		collection.runCheck()
 		expect(mockHandler.mock.calls.length).toBe(0)
 
-		overrideField.setAttribute('checked', true)
+		selectField.value = 'two'
 		collection.runCheck()
 
 		expect(collection.qualified).toBe(true)

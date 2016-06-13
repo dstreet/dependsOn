@@ -108,7 +108,8 @@ Dependency.prototype.checked = function(checkedVal) {
 Dependency.prototype.values = function(whitelist) {
 	for (var i = 0, len = whitelist.length; i < len; i++) {
 		if (this.fieldState.value !== null && Array.isArray(this.fieldState.value)) {
-			if ($(this.fieldState.value).not(whitelist[i]).length === 0) {
+			if ($(this.fieldState.value).not(whitelist[i]).length === 0 &&
+				$(whitelist[i]).not(this.fieldState.value).length === 0) {
 				return true
 			}
 		} else if (whitelist[i] === this.fieldState.value) {
@@ -246,11 +247,6 @@ Dependency.prototype.doesQualify = function() {
  */
 function getFieldState($ele) {
 	var val = $ele.val()
-
-	// If dependency is a select field, then filter by `:selected`
-	if ($ele.attr('type') === 'select') {
-		val = $ele.children(':selected').val()
-	}
 
 	// If dependency is a radio group, then filter by `:checked`
 	if ($ele.attr('type') === 'radio') {

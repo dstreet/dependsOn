@@ -9,18 +9,15 @@ var $					 = require('jquery')
 var DependencyCollection = require('./dependency-collection')
 var DependencySet        = require('./dependency-set')
 
-var SubjectController = function($subject, initialSet, opt) {
+var SubjectController = function($subject, initialSet, options) {
 	this.$subject = $subject
 	this.collection = new DependencyCollection()
-	this.collection.addSet(new DependencySet(initialSet))
-	this.options = $.extend({
-		disable: true,
-		hide: true,
-		duration: 200,
-		trigger: 'change',
+	this.options = $.extend({}, {
 		onEnable: function() {},
-		onDisable: function() {}
-	}, opt)
+		onDisable: function() {},
+		trigger: 'change'
+	}, options)
+	this.collection.addSet(new DependencySet(initialSet, this.options.trigger))
 
 	this.$valueTarget = this._getValueTarget()
 	this.isInitialState = true
@@ -33,8 +30,6 @@ var SubjectController = function($subject, initialSet, opt) {
 
 	this.collection.on('change', this._changeHandler.bind(this))
 }
-
-module.exports = SubjectController
 
 /**
  * Change handler for the collection
@@ -79,7 +74,7 @@ SubjectController.prototype._getValueTarget = function() {
  * @return {SubjectController}
  */
 SubjectController.prototype.or = function(set) {
-	this.collection.addSet(new DependencySet(set))
+	this.collection.addSet(new DependencySet(set, this.options.trigger))
 
 	if (this.collection.qualified) {
 		this._enable()
@@ -88,6 +83,13 @@ SubjectController.prototype.or = function(set) {
 	}
 
 	return this
+}
+
+/**
+ * Run a check of the collection
+ */
+SubjectController.prototype.check = function() {
+	this.collection.runCheck()
 }
 
 /**
@@ -150,6 +152,12 @@ SubjectController.prototype._disable = function(dependency, e) {
 	this.options.onDisable.call(dependency, e)
 }
 
+/**
+ * Show or hide the subject
+ * @param  {Boolean} show   Whether or not to show the element
+ * @param  {[type]}  noFade Whether or not to fade the element
+ * @private
+ */
 SubjectController.prototype._toggleDisplay = function(show, noFade) {
 	var id = this.$subject.attr('id')
 	var $hideEle
@@ -174,3 +182,5 @@ SubjectController.prototype._toggleDisplay = function(show, noFade) {
 		}
 	}
 }
+
+module.exports = SubjectController
