@@ -7,12 +7,35 @@ $( subject ).dependsOn( dependencySet, [options] );
 
 [Demo](http://dstreet.github.com/dependsOn)
 
+## Installation
+
+### with npm
+
+```
+npm install --save depends-on
+```
+
+### with Bower
+```
+bower install --save depends-on
+```
+
+### Build from source
+```
+git clone https://github.com/dstreet/dependsOn.git
+cd dependsOn
+npm install
+gulp
+
+# --> dist/dependsOn.min.js
+```
+
 ## Usage
 
 **Include jQuery (requires v1.7 or higher)**
 
 ```<script type="text/javascript" src="jquery/jquery-1.7.2.min.js"></script>```
-	
+
 
 **Include dependsOn**
 
@@ -24,7 +47,7 @@ $( subject ).dependsOn( dependencySet, [options] );
 <form id="myForm">
 	<label for="myCheck">Check Me</label>
 	<input type="checkbox" id="myCheck">
- 
+
 	<label for="myText">Input</label>
 	<input type="text" id="myText" value="">
 </form>

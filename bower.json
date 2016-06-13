@@ -1,0 +1,20 @@
+{
+  "name": "depends-on",
+  "homepage": "https://github.com/dstreet/dependsOn",
+  "authors": [
+    "David Street <street.davide@gmail.com>"
+  ],
+  "description": "A jQuery plugin to facilitate the handling of form field dependencies.",
+  "main": "",
+  "keywords": [
+    "jQuery"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ]
+}

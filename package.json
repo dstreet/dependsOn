@@ -2,12 +2,13 @@
   "name": "depends-on",
   "version": "1.2.0",
   "description": "A jQuery plugin to facilitate the handling of form field dependencies.",
-  "main": "index.js",
+  "main": "",
   "directories": {
     "doc": "docs"
   },
   "scripts": {
-    "test": "jest"
+    "test": "jest",
+    "build": "gulp"
   },
   "repository": {
     "type": "git",
