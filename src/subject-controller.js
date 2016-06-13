@@ -1,7 +1,8 @@
 /**
  * SubjectController
  * ---
- *
+ * Class which controls the state of the subject by responding its
+ * dependency collection state.
  */
 
 var $					 = require('jquery')
@@ -22,6 +23,7 @@ var SubjectController = function($subject, initialSet, opt) {
 	}, opt)
 
 	this.$valueTarget = this._getValueTarget()
+	this.isInitialState = true
 
 	if (this.collection.qualified) {
 		this._enable()
@@ -34,17 +36,25 @@ var SubjectController = function($subject, initialSet, opt) {
 
 module.exports = SubjectController
 
+/**
+ * Change handler for the collection
+ * @param  {Object} state
+ * @private
+ */
 SubjectController.prototype._changeHandler = function(state) {
 	if (state.qualified) {
 		this._enable(state.triggerBy.$ele, state.e)
 	} else {
 		this._disable(state.triggerBy.$ele, state.e)
 	}
+
+	this.isInitialState = false
 }
 
 /**
  * Get the target element when setting a value
  * @return {jQuery}
+ * @private
  */
 SubjectController.prototype._getValueTarget = function() {
 	var $valueTarget = this.$subject
@@ -91,6 +101,10 @@ SubjectController.prototype._enable = function(dependency, e) {
 		this.$subject.attr('disabled', false)
 	}
 
+	if (this.options.hide) {
+		this._toggleDisplay(true, this.isInitialState)
+	}
+
 	if (this.options.hasOwnProperty('valueOnEnable') && typeof this.options.valueOnEnable !== undefined) {
 		this.$valueTarget.val(this.options.valueOnEnable)
 	}
@@ -117,6 +131,10 @@ SubjectController.prototype._disable = function(dependency, e) {
 		this.$subject.attr('disabled', true)
 	}
 
+	if (this.options.hide) {
+		this._toggleDisplay(false, this.isInitialState)
+	}
+
 	if (this.options.hasOwnProperty('valueOnDisable') && typeof this.options.valueOnDisable !== undefined) {
 		this.$valueTarget.val(this.options.valueOnDisable)
 	}
@@ -130,4 +148,29 @@ SubjectController.prototype._disable = function(dependency, e) {
 	}
 
 	this.options.onDisable.call(dependency, e)
+}
+
+SubjectController.prototype._toggleDisplay = function(show, noFade) {
+	var id = this.$subject.attr('id')
+	var $hideEle
+
+	if (this.$subject.parent()[0].nodeName.toLowerCase() === 'label') {
+		$hideEle = this.$subject.parent()
+	} else {
+		$hideEle = this.$subject.add('label[for="' + id + '"]')
+	}
+
+	if (show && !$hideEle.is(':visible')) {
+		if (noFade) {
+			$hideEle.show()
+		} else {
+			$hideEle.fadeIn(this.options.duration)
+		}
+	} else if (!show) {
+		if (noFade) {
+			$hideEle.hide()
+		} else {
+			$hideEle.fadeOut(this.options.duration)
+		}
+	}
 }

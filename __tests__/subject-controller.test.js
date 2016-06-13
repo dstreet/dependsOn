@@ -133,6 +133,28 @@ describe('SubjectController', () => {
 			expect(mockCb.mock.calls.length).toBe(1)
 			expect(mockCb.mock.calls[0][0]).toBe(controller.collection.sets[0].dependencies[0])
 		})
+
+		it('should show the subject, if allowed, when hidden', () => {
+			document.body.innerHTML =
+				'<input id="subject" type="text">' +
+				'<input id="text-field" type="text">'
+
+			const set = { '#text-field': { values: ['pass'] } }
+			const controller = new SubjectController($('#subject'), set, {
+				hide: true
+			})
+
+			$('#subject').hide()
+
+			return new Promise(res => {
+				setTimeout(() => {
+					expect($('#subject').is(':visible')).toBeFalsy()
+					controller._enable()
+					expect($('#subject').is(':visible')).toBeTruthy()
+					res()
+				}, 10)
+			})
+		})
 	})
 
 	describe('_disable()', () => {
@@ -225,6 +247,26 @@ describe('SubjectController', () => {
 			controller._disable(controller.collection.sets[0].dependencies[0])
 			expect(mockCb.mock.calls.length).toBe(1)
 			expect(mockCb.mock.calls[0][0]).toBe(controller.collection.sets[0].dependencies[0])
+		})
+
+		it('should hide the subject, if allowed, when visible', () => {
+			document.body.innerHTML =
+				'<input id="subject" type="text">' +
+				'<input id="text-field" type="text" value="pass">'
+
+			const set = { '#text-field': { values: ['pass'] } }
+			const controller = new SubjectController($('#subject'), set, {
+				hide: true
+			})
+
+			return new Promise(res => {
+				setTimeout(() => {
+					expect($('#subject').is(':visible')).toBeTruthy()
+					controller._disable()
+					expect($('#subject').is(':visible')).toBeFalsy()
+					res()
+				}, 10)
+			})
 		})
 	})
 })
