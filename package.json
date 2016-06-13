@@ -1,0 +1,37 @@
+{
+  "name": "depends-on",
+  "version": "1.2.0",
+  "description": "A jQuery plugin to facilitate the handling of form field dependencies.",
+  "main": "",
+  "directories": {
+    "doc": "docs"
+  },
+  "scripts": {
+    "test": "jest",
+    "build": "gulp"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://dstreet@github.com/dstreet/dependsOn.git"
+  },
+  "author": "David Street",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/dstreet/dependsOn/issues"
+  },
+  "homepage": "https://github.com/dstreet/dependsOn",
+  "devDependencies": {
+    "gulp": "^3.8.10",
+    "gulp-rename": "^1.2.0",
+    "gulp-uglify": "^1.0.1",
+    "gulp-webpack": "^1.5.0",
+    "jquery": "^2.2.3",
+  },
+  "dependencies": {},
+  "jest": {
+    "setupEnvScriptFile": "test-setup.js"
+  },
+  "keywords": [
+    "jQuery"
+  ]
+}

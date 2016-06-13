@@ -7,16 +7,39 @@ $( subject ).dependsOn( dependencySet, [options] );
 
 [Demo](http://dstreet.github.com/dependsOn)
 
+## Installation
+
+### with npm
+
+```
+npm install --save depends-on
+```
+
+### with Bower
+```
+bower install --save depends-on
+```
+
+### Build from source
+```
+git clone https://github.com/dstreet/dependsOn.git
+cd dependsOn
+npm install
+gulp
+
+# --> dist/dependsOn.min.js
+```
+
 ## Usage
 
 **Include jQuery (requires v1.7 or higher)**
 
 ```<script type="text/javascript" src="jquery/jquery-1.7.2.min.js"></script>```
-	
+
 
 **Include dependsOn**
 
-```<script type="text/javascript" src="dependsOn-1.0.2.min.js"></script>```
+```<script type="text/javascript" src="dependsOn.min.js"></script>```
 
 **Add form components**
 
@@ -24,7 +47,7 @@ $( subject ).dependsOn( dependencySet, [options] );
 <form id="myForm">
 	<label for="myCheck">Check Me</label>
 	<input type="checkbox" id="myCheck">
- 
+
 	<label for="myText">Input</label>
 	<input type="text" id="myText" value="">
 </form>
@@ -60,6 +83,7 @@ $('#myText').dependsOn({
 * `disable`: (Boolean) Add "disabled" attribute to the subject's form field. **Default**: true
 * `hide`: (Boolean) Hide the subject on disable and reveal the subject on enable. **Default**: true
 * `duration`: (Number) The time in milliseconds for the fade transition. Used only if `hide` is set to true. **Default**: 200
+* `trigger`: (String) The event used to check dependencies. **Default**: 'change'
 * `onEnable`: (Function) The callback function to execute when the subject has been enabled. **Default**: Empty Function
 * `onDisable`: (Function) The callback function to execute when the subject has been disabled. **Default**: Empty Function
 * `valueOnEnable`: (String) The value to set the subject to when enabled.
