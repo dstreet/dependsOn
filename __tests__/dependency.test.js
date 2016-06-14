@@ -504,6 +504,54 @@ describe('Dependency()', () => {
 		})
 	})
 
+	describe('range()', () => {
+		afterEach(() => {
+			document.body.innerHTML = ''
+		})
+
+		it('should return true only when the value is within a\
+			given range', () => {
+			document.body.innerHTML =
+				'<input id="text-field" type="text">'
+
+			const field = document.getElementById('text-field')
+			const dep = new Dependency('#text-field')
+
+			field.value = '0'
+			dep.runCheck()
+			expect(dep.range(0, 10)).toBeTruthy()
+			field.value = '5'
+			dep.runCheck()
+			expect(dep.range(0, 10)).toBeTruthy()
+			field.value = '10'
+			dep.runCheck()
+			expect(dep.range(0, 10)).toBeTruthy()
+			field.value = '11'
+			dep.runCheck()
+			expect(dep.range(0, 10)).toBeFalsy()
+
+			field.value = '1.5'
+			dep.runCheck()
+			expect(dep.range(1, 2)).toBeTruthy()
+			field.value = '6'
+			dep.runCheck()
+			expect(dep.range(2, 10, 2)).toBeTruthy()
+			field.value = '3'
+			dep.runCheck()
+			expect(dep.range(2, 10, 2)).toBeFalsy()
+
+			field.value = 'B'
+			dep.runCheck()
+			expect(dep.range('A', 'D')).toBeTruthy()
+			field.value = 'a'
+			dep.runCheck()
+			expect(dep.range('A', 'D')).toBeFalsy()
+			field.value = 'B'
+			dep.runCheck()
+			expect(dep.range(65, 68)).toBeFalsy()
+		})
+	})
+
 	describe('doesQualify()', () => {
 		afterEach(() => {
 			document.body.innerHTML = ''
