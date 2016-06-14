@@ -156,6 +156,12 @@ $('#myText').dependsOn({
 					</tr>
 
 					<tr>
+						<td class="property">range</td>
+						<td>Dependency value must be within the given range</td>
+						<td>Array</td>
+					</tr>
+
+					<tr>
 						<td>Custom</td>
 						<td>Custom function which return true or false.</td>
 						<td>Function</td>
@@ -325,6 +331,74 @@ $('#basicTest .subject').dependsOn({
 $('#valuesTest .subject').dependsOn({
 	'#valuesTest input[type="text"]': {
 		values: ['yes', 'true']
+	}
+});</pre>
+					</div>
+				</li>
+
+				<li>
+					<h3>Numerical Range</h3>
+					<p>Submit button will be enabled and revealed when the text field value is within the range of 2 and 10, with a step value of 2</p>
+
+					<form class="well" id="numberRangeTest">
+						<label>Enter a multiple of 2 between 2 and 10</label>
+						<input type="text">
+						<br>
+
+						<input type="submit" class="btn subject">
+					</form>
+
+					<div class="showHideCode">
+						<p><b><a href="">Hide HTML</a></b></p>
+						<pre class="prettyprint linenums">
+&lt;form id=&quot;numberRangeTest&quot;&gt;
+	&lt;label&gt;Enter a multiple of 2 between 2 and 10&lt;/label&gt;
+	&lt;input type=&quot;text&quot;&gt;
+
+	&lt;input type=&quot;submit&quot; class=&quot;subject&quot;&gt;
+&lt;/form&gt;</pre>
+					</div>
+
+					<div class="showHideCode">
+						<p><b><a href="">Hide Javascript</a></b></p>
+						<pre class="prettyprint linenums">
+$('#numberRangeTest .subject').dependsOn({
+	'#numberRangeTest input[type="text"]': {
+		range: [2, 10, 2]
+	}
+});</pre>
+					</div>
+				</li>
+
+				<li>
+					<h3>Alpha Range</h3>
+					<p>Submit button will be enabled and revealed when the text field value is between "a" and "c"</p>
+
+					<form class="well" id="alphaRangeTest">
+						<label>Enter a letter between "a" and "c"</label>
+						<input type="text">
+						<br>
+
+						<input type="submit" class="btn subject">
+					</form>
+
+					<div class="showHideCode">
+						<p><b><a href="">Hide HTML</a></b></p>
+						<pre class="prettyprint linenums">
+&lt;form id=&quot;alphaRangeTest&quot;&gt;
+	&lt;label&gt;Enter a letter between "a" and "c"&lt;/label&gt;
+	&lt;input type=&quot;text&quot;&gt;
+
+	&lt;input type=&quot;submit&quot; class=&quot;subject&quot;&gt;
+&lt;/form&gt;</pre>
+					</div>
+
+					<div class="showHideCode">
+						<p><b><a href="">Hide Javascript</a></b></p>
+						<pre class="prettyprint linenums">
+$('#alphaRangeTest .subject').dependsOn({
+	'#alphaRangeTest input[type="text"]': {
+		range: ['a', 'c']
 	}
 });</pre>
 					</div>
@@ -747,6 +821,18 @@ $('#valueTargetTest .subject').dependsOn({
 			$('#valuesTest .subject').dependsOn({
 				'#valuesTest input[type="text"]': {
 					values: ['yes', 'true']
+				}
+			});
+
+			$('#numberRangeTest .subject').dependsOn({
+				'#numberRangeTest input[type="text"]': {
+					range: [2, 10, 2]
+				}
+			});
+
+			$('#alphaRangeTest .subject').dependsOn({
+				'#alphaRangeTest input[type="text"]': {
+					range: ['a', 'c']
 				}
 			});
 
