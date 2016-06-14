@@ -81,6 +81,7 @@ $('#myText').dependsOn({
 ## Options
 
 * `disable`: (Boolean) Add "disabled" attribute to the subject's form field. **Default**: true
+* `readonly`: (Boolean) Add "readonly" attribute to the subject's form field. **Default**: false
 * `hide`: (Boolean) Hide the subject on disable and reveal the subject on enable. **Default**: true
 * `duration`: (Number) The time in milliseconds for the fade transition. Used only if `hide` is set to true. **Default**: 200
 * `trigger`: (String) The event used to check dependencies. **Default**: 'change'
