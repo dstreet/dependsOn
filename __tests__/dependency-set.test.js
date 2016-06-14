@@ -48,13 +48,13 @@ describe('DependencySet', () => {
 
 	it('should emit a `change` event when any dependency becomes unqualified', () => {
 		document.body.innerHTML =
-			'<input id="text-field" type="text" value="pass">' +
+			'<input id="text-field" type="text" value="2">' +
 			'<input id="check-field" type="checkbox" checked>'
 
 		const mockHandler = jest.fn()
 		const set = new DependencySet({
 			'#text-field': {
-				values: ['pass']
+				range: [0, 10]
 			},
 			'#check-field': {
 				checked: true
@@ -70,13 +70,13 @@ describe('DependencySet', () => {
 		set.runCheck()
 		expect(mockHandler.mock.calls.length).toBe(0)
 
-		textField.value = 'fail'
+		textField.value = '-1'
 		set.runCheck()
 		expect(mockHandler.mock.calls.length).toBe(1)
 		expect(mockHandler.mock.calls[0][0].qualified).toBe(false)
 		expect(mockHandler.mock.calls[0][0].triggerBy.$ele.selector).toBe('#text-field')
 
-		textField.value = 'fail again'
+		textField.value = '11'
 		set.runCheck()
 		expect(mockHandler.mock.calls.length).toBe(1)
 
@@ -84,7 +84,7 @@ describe('DependencySet', () => {
 		set.runCheck()
 		expect(mockHandler.mock.calls.length).toBe(1)
 
-		textField.value = 'pass'
+		textField.value = '5'
 		set.runCheck()
 		expect(mockHandler.mock.calls.length).toBe(1)
 

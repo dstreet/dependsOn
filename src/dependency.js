@@ -256,8 +256,14 @@ Dependency.prototype.doesQualify = function() {
 		if (!this.qualifiers.hasOwnProperty(q)) continue
 
 		if (this.methods.indexOf(q) && typeof this[q] === 'function') {
-			if (!this[q](this.qualifiers[q])) {
-				return false
+			if (q === 'range') {
+				if (!this[q].apply(this, this.qualifiers[q])) {
+					return false
+				}
+			} else {
+				if (!this[q].call(this, this.qualifiers[q])) {
+					return false
+				}
 			}
 		} else if (typeof this.qualifiers[q] === 'function') {
 			if (!this.qualifiers[q].call(this.qualifiers, this.$ele.val())) {
