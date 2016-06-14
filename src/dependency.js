@@ -157,6 +157,31 @@ Dependency.prototype.match = function(regex) {
 }
 
 /**
+ * Qualifier method which runs a RegExp pattern match on the dependency
+ * input value.
+ * ---
+ * Returns true when the dependency value does *not* match the regexp.
+ * If dependency value is an array, will only return true if _none_ of the
+ * values match the regular expression.
+ *
+ * @param  {RegExp} regex Regular expression to test against
+ * @return {Boolean}
+ */
+Dependency.prototype.notMatch = function(regex) {
+	var val = this.fieldState.value
+
+	if (!Array.isArray(this.fieldState.value)) {
+		val = [val]
+	}
+
+	for (var i = 0, len = val.length; i < len; i++) {
+		if (regex.test(val[i])) return false
+	}
+
+	return true
+}
+
+/**
  * Qualifier method which checks if a whitelisted value exists in an
  * array of dependency values.
  * ---
