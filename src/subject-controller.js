@@ -107,7 +107,7 @@ SubjectController.prototype._enable = function(dependency, e) {
 	}
 
 	if (this.options.hasOwnProperty('valueOnEnable') && typeof this.options.valueOnEnable !== undefined) {
-		this.$valueTarget.val(this.options.valueOnEnable)
+		this.$valueTarget.val(this.options.valueOnEnable).change()
 	}
 
 	if (this.options.hasOwnProperty('checkOnEnable')) {
@@ -137,7 +137,7 @@ SubjectController.prototype._disable = function(dependency, e) {
 	}
 
 	if (this.options.hasOwnProperty('valueOnDisable') && typeof this.options.valueOnDisable !== undefined) {
-		this.$valueTarget.val(this.options.valueOnDisable)
+		this.$valueTarget.val(this.options.valueOnDisable).change()
 	}
 
 	if (this.options.hasOwnProperty('checkOnDisable')) {

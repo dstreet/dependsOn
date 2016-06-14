@@ -258,4 +258,28 @@ describe('SubjectController', () => {
 			expect($('#subject').is(':visible')).toBeFalsy()
 		})
 	})
+
+	describe('subject change event', () => {
+		fit('should fire a change event when the subject value changes', () => {
+			document.body.innerHTML =
+				'<input id="subject" type="text">' +
+				'<input id="text-field" type="text">'
+
+			const set = { '#text-field': { values: ['pass'] } }
+			const $subject = $('#subject')
+			const $textField = $('#text-field')
+			const controller = new SubjectController($subject, set, {
+				valueOnEnable: 'enable',
+				valueOnDisable: 'disable'
+			})
+			const mockCb = jest.fn()
+
+			$subject.on('change', mockCb)
+
+			$textField.val('pass').change()
+			expect(mockCb.mock.calls.length).toBe(1)
+			$textField.val('fail').change()
+			expect(mockCb.mock.calls.length).toBe(2)
+		})
+	})
 })
