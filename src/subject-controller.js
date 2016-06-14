@@ -14,7 +14,8 @@ var SubjectController = function($subject, initialSet, options) {
 	this.options = $.extend({}, {
 		onEnable: function() {},
 		onDisable: function() {},
-		trigger: 'change'
+		trigger: 'change',
+		readonly: false
 	}, options)
 	this.collection.addSet(new DependencySet(initialSet, this.options.trigger))
 
@@ -102,6 +103,10 @@ SubjectController.prototype._enable = function(dependency, e) {
 		this.$subject.attr('disabled', false)
 	}
 
+	if (this.options.readonly) {
+		this.$subject.attr('readonly', false)
+	}
+
 	if (this.options.hide) {
 		this._toggleDisplay(true, this.isInitialState)
 	}
@@ -130,6 +135,10 @@ SubjectController.prototype._enable = function(dependency, e) {
 SubjectController.prototype._disable = function(dependency, e) {
 	if (this.options.disable) {
 		this.$subject.attr('disabled', true)
+	}
+
+	if (this.options.readonly) {
+		this.$subject.attr('readonly', true)
 	}
 
 	if (this.options.hide) {
