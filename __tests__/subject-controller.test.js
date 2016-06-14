@@ -260,7 +260,7 @@ describe('SubjectController', () => {
 	})
 
 	describe('subject change event', () => {
-		fit('should fire a change event when the subject value changes', () => {
+		it('should fire a change event when the subject value changes', () => {
 			document.body.innerHTML =
 				'<input id="subject" type="text">' +
 				'<input id="text-field" type="text">'
