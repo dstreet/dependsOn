@@ -58,6 +58,21 @@ describe('SubjectController', () => {
 			expect($('#subject').is(':disabled')).toBeFalsy()
 		})
 
+		it('should remove `readonly` attr from subject when allowed', () => {
+			document.body.innerHTML =
+				'<input id="subject" type="text">' +
+				'<input id="text-field" type="text">'
+
+			const set = { '#text-field': { values: ['pass'] } }
+			const controller = new SubjectController($('#subject'), set, {
+				readonly: true
+			})
+
+			expect($('#subject').is('[readonly]')).toBeTruthy()
+			controller._enable()
+			expect($('#subject').is('[readonly]')).toBeFalsy()
+		})
+
 		it('should set value of subject when allowed', () => {
 			document.body.innerHTML =
 				'<input id="subject" type="text">' +
@@ -165,6 +180,21 @@ describe('SubjectController', () => {
 			expect($('#subject').is(':disabled')).toBeFalsy()
 			controller._disable()
 			expect($('#subject').is(':disabled')).toBeTruthy()
+		})
+
+		it('should add `readonly` attr to subject when allowed', () => {
+			document.body.innerHTML =
+				'<input id="subject" type="text">' +
+				'<input id="text-field" type="text" value="pass">'
+
+			const set = { '#text-field': { values: ['pass'] } }
+			const controller = new SubjectController($('#subject'), set, {
+				readonly: true
+			})
+
+			expect($('#subject').is('[readonly]')).toBeFalsy()
+			controller._disable()
+			expect($('#subject').is('[readonly]')).toBeTruthy()
 		})
 
 		it('should set value of subject when allowed', () => {

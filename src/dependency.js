@@ -157,6 +157,31 @@ Dependency.prototype.match = function(regex) {
 }
 
 /**
+ * Qualifier method which runs a RegExp pattern match on the dependency
+ * input value.
+ * ---
+ * Returns true when the dependency value does *not* match the regexp.
+ * If dependency value is an array, will only return true if _none_ of the
+ * values match the regular expression.
+ *
+ * @param  {RegExp} regex Regular expression to test against
+ * @return {Boolean}
+ */
+Dependency.prototype.notMatch = function(regex) {
+	var val = this.fieldState.value
+
+	if (!Array.isArray(this.fieldState.value)) {
+		val = [val]
+	}
+
+	for (var i = 0, len = val.length; i < len; i++) {
+		if (regex.test(val[i])) return false
+	}
+
+	return true
+}
+
+/**
  * Qualifier method which checks if a whitelisted value exists in an
  * array of dependency values.
  * ---
@@ -213,6 +238,38 @@ Dependency.prototype.url = function(shouldMatch) {
 }
 
 /**
+ * Qualifier method which checks that the value within an inclusive
+ * numerical range
+ * ---
+ * Returns true when the value falls within the range. Alpha characters can
+ * also be evaluated, and will only be considered valid when the range values
+ * are also apha characters.
+ *
+ * @param  {Number|Character} start The range start
+ * @param  {Number|Character} end The range extend
+ * @param  {Number}           [step] The number of steps
+ * @return {Boolean}
+ */
+Dependency.prototype.range = function(start, end, step) {
+	var type = typeof start === 'string' ? 'char' : 'number'
+	var startVal = type === 'char' ? start.charCodeAt() : start
+	var endVal = type === 'char' ? end.charCodeAt() : end
+	var val = type === 'char' ? this.fieldState.value.charCodeAt() : parseFloat(this.fieldState.value)
+
+	if (step) {
+		var valArray = []
+		for (var i = startVal; i <= endVal; i += step) valArray.push(i)
+		return valArray.indexOf(val) >= 0
+	} else {
+		if (val >= startVal && val <= endVal) {
+			return true
+		}
+	}
+
+	return false
+}
+
+/**
  * Check the dependency value against all of its qualifiers. If
  * qualifiers contains an unknown qualifier, treat it as a custom
  * qualifier and execute the function.
@@ -224,8 +281,14 @@ Dependency.prototype.doesQualify = function() {
 		if (!this.qualifiers.hasOwnProperty(q)) continue
 
 		if (this.methods.indexOf(q) && typeof this[q] === 'function') {
-			if (!this[q](this.qualifiers[q])) {
-				return false
+			if (q === 'range') {
+				if (!this[q].apply(this, this.qualifiers[q])) {
+					return false
+				}
+			} else {
+				if (!this[q].call(this, this.qualifiers[q])) {
+					return false
+				}
 			}
 		} else if (typeof this.qualifiers[q] === 'function') {
 			if (!this.qualifiers[q].call(this.qualifiers, this.$ele.val())) {
@@ -266,4 +329,9 @@ if (!Array.isArray) {
 	Array.isArray = function(arg) {
 		return Object.prototype.toString.call(arg) === '[object Array]'
 	}
+}
+
+// Number.isNaN polyfill
+Number.isNaN = Number.isNaN || function(value) {
+	return value !== value
 }

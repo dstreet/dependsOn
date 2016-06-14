@@ -288,6 +288,44 @@ describe('Dependency()', () => {
 		})
 	})
 
+	describe('notMatch()', () => {
+		afterEach(() => {
+			document.body.innerHTML = ''
+		})
+
+		it('should return true for a single value field only when the value\
+			does not matche the regex', () => {
+			document.body.innerHTML =
+				'<input id="text-field1" type="text" value="should pass">' +
+				'<input id="text-field2" type="text" value="should fail">'
+
+			const re = /fail$/
+
+			expect((new Dependency('#text-field1')).notMatch(re)).toBeTruthy()
+			expect((new Dependency('#text-field2')).notMatch(re)).toBeFalsy()
+		})
+
+		it('should return true for multiple value fields only when none of the\
+			values match the regex', () => {
+			document.body.innerHTML =
+				'<select id="select-field1" multiple>' +
+					'<option value="will fail"></option>' +
+					'<option value="should pass" selected></option>' +
+					'<option value="will pass" selected></option>' +
+				'</select>' +
+				'<select id="select-field2" multiple>' +
+					'<option value="should pass" selected></option>' +
+					'<option value="will fail" selected></option>' +
+					'<option value="will pass"></option>' +
+				'</select>'
+
+			const re = /fail$/
+
+			expect((new Dependency('#select-field1')).notMatch(re)).toBeTruthy()
+			expect((new Dependency('#select-field2')).notMatch(re)).toBeFalsy()
+		})
+	})
+
 	describe('contains()', () => {
 		afterEach(() => {
 			document.body.innerHTML = ''
@@ -463,6 +501,54 @@ describe('Dependency()', () => {
 			field.value = 'https:///test.com'
 			dep.runCheck()
 			expect(dep.url(false)).toBeTruthy()
+		})
+	})
+
+	describe('range()', () => {
+		afterEach(() => {
+			document.body.innerHTML = ''
+		})
+
+		it('should return true only when the value is within a\
+			given range', () => {
+			document.body.innerHTML =
+				'<input id="text-field" type="text">'
+
+			const field = document.getElementById('text-field')
+			const dep = new Dependency('#text-field')
+
+			field.value = '0'
+			dep.runCheck()
+			expect(dep.range(0, 10)).toBeTruthy()
+			field.value = '5'
+			dep.runCheck()
+			expect(dep.range(0, 10)).toBeTruthy()
+			field.value = '10'
+			dep.runCheck()
+			expect(dep.range(0, 10)).toBeTruthy()
+			field.value = '11'
+			dep.runCheck()
+			expect(dep.range(0, 10)).toBeFalsy()
+
+			field.value = '1.5'
+			dep.runCheck()
+			expect(dep.range(1, 2)).toBeTruthy()
+			field.value = '6'
+			dep.runCheck()
+			expect(dep.range(2, 10, 2)).toBeTruthy()
+			field.value = '3'
+			dep.runCheck()
+			expect(dep.range(2, 10, 2)).toBeFalsy()
+
+			field.value = 'B'
+			dep.runCheck()
+			expect(dep.range('A', 'D')).toBeTruthy()
+			field.value = 'a'
+			dep.runCheck()
+			expect(dep.range('A', 'D')).toBeFalsy()
+			field.value = 'B'
+			dep.runCheck()
+			expect(dep.range(65, 68)).toBeFalsy()
 		})
 	})
 

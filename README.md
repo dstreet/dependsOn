@@ -73,14 +73,17 @@ $('#myText').dependsOn({
 * `values`: (Array) Dependency value must equal one of the provided values.
 * `not`: (Array) Dependency value must not equal any of the provided values.
 * `match`: (RegEx) Dependency value must match the regular expression.
+* `notMatch`: (RegEx) Dependency value must not match the regular expression.
 * `contains`: (Array) One of the provided values must be contained in an array of dependency values. Used for select fields with the "multiple" attribute.
 * `email`: (Boolean) If true, dependency value must match an email address.
 * `url`: (Boolean) If true, Dependency value must match an URL.
+* `range`: (Array) Dependency value must be within the given range.
 * `Custom`: (Function) Custom function which return true or false.
 
 ## Options
 
 * `disable`: (Boolean) Add "disabled" attribute to the subject's form field. **Default**: true
+* `readonly`: (Boolean) Add "readonly" attribute to the subject's form field. **Default**: false
 * `hide`: (Boolean) Hide the subject on disable and reveal the subject on enable. **Default**: true
 * `duration`: (Number) The time in milliseconds for the fade transition. Used only if `hide` is set to true. **Default**: 200
 * `trigger`: (String) The event used to check dependencies. **Default**: 'change'
@@ -92,11 +95,6 @@ $('#myText').dependsOn({
 * `checkOnDisable`: (Boolean) If true, "checked" attribute will be added to subject when disabled. If false, "checked" attribute will be removed from subject when disabled. For checkboxes and radio buttons.
 * `valueTarget`: (String) jQuery selector for the object to you want to target for editing the value. Use if you want to alter the value of something other than the subject.
 * `toggleClass`: (String) The class you wish to be appended to the subject when enabled. The class will be removed when the subject is disabled.
-
-## TODO
-
-* Add a range qualifier that will check if the input value is within a numerical range. Might accept an array with three values similar to the arguments for the Python [range](http://docs.python.org/library/functions.html#range) function.
-* Trigger the "change" event when the subject values are altered.
 
 ## Other Libraries
 
