@@ -1,4 +1,4 @@
-/* eslint-env jest, es6 */
+/* eslint-env jest, jasmine, es6 */
 
 jest
 	.unmock('jquery')
@@ -129,9 +129,9 @@ describe('SubjectController', () => {
 				onEnable: mockCb
 			})
 
-			controller._enable(controller.collection.sets[0].dependencies[0])
+			controller._enable(controller.collection.sets[0].dependencies[0], new Event('change'))
 			expect(mockCb.mock.calls.length).toBe(1)
-			expect(mockCb.mock.calls[0][0]).toBe(controller.collection.sets[0].dependencies[0])
+			expect(mockCb.mock.calls[0][0]).toEqual(jasmine.any(Event))
 		})
 
 		it('should show the subject, if allowed, when hidden', () => {
@@ -145,15 +145,9 @@ describe('SubjectController', () => {
 			})
 
 			$('#subject').hide()
-
-			return new Promise(res => {
-				setTimeout(() => {
-					expect($('#subject').is(':visible')).toBeFalsy()
-					controller._enable()
-					expect($('#subject').is(':visible')).toBeTruthy()
-					res()
-				}, 10)
-			})
+			expect($('#subject').is(':visible')).toBeFalsy()
+			controller._enable()
+			expect($('#subject').is(':visible')).toBeTruthy()
 		})
 	})
 
@@ -244,9 +238,9 @@ describe('SubjectController', () => {
 				onDisable: mockCb
 			})
 
-			controller._disable(controller.collection.sets[0].dependencies[0])
+			controller._disable(controller.collection.sets[0].dependencies[0], new Event('change'))
 			expect(mockCb.mock.calls.length).toBe(1)
-			expect(mockCb.mock.calls[0][0]).toBe(controller.collection.sets[0].dependencies[0])
+			expect(mockCb.mock.calls[0][0]).toEqual(jasmine.any(Event))
 		})
 
 		it('should hide the subject, if allowed, when visible', () => {
@@ -259,14 +253,33 @@ describe('SubjectController', () => {
 				hide: true
 			})
 
-			return new Promise(res => {
-				setTimeout(() => {
-					expect($('#subject').is(':visible')).toBeTruthy()
-					controller._disable()
-					expect($('#subject').is(':visible')).toBeFalsy()
-					res()
-				}, 10)
+			expect($('#subject').is(':visible')).toBeTruthy()
+			controller._disable()
+			expect($('#subject').is(':visible')).toBeFalsy()
+		})
+	})
+
+	describe('subject change event', () => {
+		fit('should fire a change event when the subject value changes', () => {
+			document.body.innerHTML =
+				'<input id="subject" type="text">' +
+				'<input id="text-field" type="text">'
+
+			const set = { '#text-field': { values: ['pass'] } }
+			const $subject = $('#subject')
+			const $textField = $('#text-field')
+			const controller = new SubjectController($subject, set, {
+				valueOnEnable: 'enable',
+				valueOnDisable: 'disable'
 			})
+			const mockCb = jest.fn()
+
+			$subject.on('change', mockCb)
+
+			$textField.val('pass').change()
+			expect(mockCb.mock.calls.length).toBe(1)
+			$textField.val('fail').change()
+			expect(mockCb.mock.calls.length).toBe(2)
 		})
 	})
 })
