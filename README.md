@@ -73,6 +73,7 @@ $('#myText').dependsOn({
 * `values`: (Array) Dependency value must equal one of the provided values.
 * `not`: (Array) Dependency value must not equal any of the provided values.
 * `match`: (RegEx) Dependency value must match the regular expression.
+* `notMatch`: (RegEx) Dependency value must not match the regular expression.
 * `contains`: (Array) One of the provided values must be contained in an array of dependency values. Used for select fields with the "multiple" attribute.
 * `email`: (Boolean) If true, dependency value must match an email address.
 * `url`: (Boolean) If true, Dependency value must match an URL.
