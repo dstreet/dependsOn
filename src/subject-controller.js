@@ -116,7 +116,7 @@ SubjectController.prototype._enable = function(dependency, e) {
 	}
 
 	if (this.options.hasOwnProperty('checkOnEnable')) {
-		this.$valueTarget.prop('checked', this.options.checkOnEnable)
+		this.$valueTarget.prop('checked', this.options.checkOnEnable).change()
 	}
 
 	if (this.options.hasOwnProperty('toggleClass') && typeof this.options.toggleClass !== undefined) {
@@ -150,7 +150,7 @@ SubjectController.prototype._disable = function(dependency, e) {
 	}
 
 	if (this.options.hasOwnProperty('checkOnDisable')) {
-		this.$valueTarget.prop('checked', this.options.checkOnDisable)
+		this.$valueTarget.prop('checked', this.options.checkOnDisable).change()
 	}
 
 	if (this.options.hasOwnProperty('toggleClass') && typeof this.options.toggleClass !== undefined) {

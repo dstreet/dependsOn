@@ -311,5 +311,24 @@ describe('SubjectController', () => {
 			$textField.val('fail').change()
 			expect(mockCb.mock.calls.length).toBe(2)
 		})
+
+		it('should fire a change event when the subject becomes checked or unchecked', () => {
+			document.body.innerHTML =
+				'<input id="subject" type="checkbox">' +
+				'<input id="text-field" type="text">'
+
+			const set = { '#text-field': { values: ['pass'] } }
+			const $subject = $('#subject')
+			const $textField = $('#text-field')
+			const controller = new SubjectController($subject, set, {
+				checkOnEnable: true
+			})
+			const mockCb = jest.fn()
+
+			$subject.on('change', mockCb)
+
+			$textField.val('pass').change()
+			expect(mockCb.mock.calls.length).toBe(1)
+		})
 	})
 })
