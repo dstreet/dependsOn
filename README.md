@@ -20,6 +20,10 @@ npm install --save jquery-depends-on
 bower install --save jquery-depends-on
 ```
 
+### Download directly
+
+[Latest Release](https://github.com/dstreet/dependsOn/releases/latest)
+
 ### Build from source
 ```
 git clone https://github.com/dstreet/dependsOn.git
