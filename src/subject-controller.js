@@ -28,6 +28,7 @@ var SubjectController = function($subject, initialSet, options) {
 		this._disable()
 	}
 
+	this.isInitialState = false
 	this.collection.on('change', this._changeHandler.bind(this))
 }
 
@@ -42,8 +43,6 @@ SubjectController.prototype._changeHandler = function(state) {
 	} else {
 		this._disable(state.triggerBy.$ele, state.e)
 	}
-
-	this.isInitialState = false
 }
 
 /**

@@ -280,7 +280,8 @@ describe('SubjectController', () => {
 
 			const set = { '#text-field': { values: ['pass'] } }
 			const controller = new SubjectController($('#subject'), set, {
-				hide: true
+				hide: true,
+				duration: 0
 			})
 
 			expect($('#subject').is(':visible')).toBeTruthy()
