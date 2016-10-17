@@ -140,13 +140,15 @@ describe('SubjectController', () => {
 
 			const set = { '#text-field': { values: ['pass'] } }
 			const mockCb = jest.fn()
-			const controller = new SubjectController($('#subject'), set, {
+			const $subject = $('#subject')
+			const controller = new SubjectController($subject, set, {
 				onEnable: mockCb
 			})
 
 			controller._enable(controller.collection.sets[0].dependencies[0], new Event('change'))
 			expect(mockCb.mock.calls.length).toBe(1)
 			expect(mockCb.mock.calls[0][0]).toEqual(jasmine.any(Event))
+			expect(mockCb.mock.calls[0][1]).toEqual($subject)
 		})
 
 		it('should show the subject, if allowed, when hidden', () => {
@@ -264,13 +266,15 @@ describe('SubjectController', () => {
 
 			const set = { '#text-field': { values: ['pass'] } }
 			const mockCb = jest.fn()
-			const controller = new SubjectController($('#subject'), set, {
+			const $subject = $('#subject')
+			const controller = new SubjectController($subject, set, {
 				onDisable: mockCb
 			})
 
 			controller._disable(controller.collection.sets[0].dependencies[0], new Event('change'))
 			expect(mockCb.mock.calls.length).toBe(1)
 			expect(mockCb.mock.calls[0][0]).toEqual(jasmine.any(Event))
+			expect(mockCb.mock.calls[0][1]).toEqual($subject)
 		})
 
 		it('should hide the subject, if allowed, when visible', () => {

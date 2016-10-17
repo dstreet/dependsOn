@@ -733,7 +733,7 @@ $('#callbackTest .subject').dependsOn({
 		checked: true
 	}
 }, {
-	onEnable: function() {
+	onEnable: function(e, $subject) {
 		window.alert('Hello, world!');
 	}
 });</pre>
@@ -921,7 +921,7 @@ $('#valueTargetTest .subject').dependsOn({
 					checked: true
 				}
 			}, {
-				onEnable: function() {
+				onEnable: function(e, $subject) {
 					window.alert('Hello, world!');
 				}
 			});

@@ -100,6 +100,12 @@ $('#myText').dependsOn({
 * `valueTarget`: (String) jQuery selector for the object to you want to target for editing the value. Use if you want to alter the value of something other than the subject.
 * `toggleClass`: (String) The class you wish to be appended to the subject when enabled. The class will be removed when the subject is disabled.
 
+## Callbacks
+
+When the `onEnable` and `onDisable` callbacks are called, `this` is set to the last triggered dependency, and the function is passed two arguments:
+* `e`: The triggering event object
+* `$subject`: The jQuery object of the subject
+
 ## Other Libraries
 
 * [rails_depends_on](https://github.com/francescob/rails_depends_on) - Rails Gem for dependsOn
