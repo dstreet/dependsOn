@@ -28,8 +28,9 @@ DependencyCollection.prototype = $.extend({}, EventEmitter.prototype)
  */
 DependencyCollection.prototype.addSet = function(set) {
 	this.sets.push(set)
-	this._addToSum(set.qualified)
+	this._qualSum += set.qualified ? 1 : 0
 	this.qualified = this._qualSum > 0
+
 	set.on('change', this._setChangeHandler.bind(this))
 }
 
@@ -43,15 +44,6 @@ DependencyCollection.prototype.runCheck = function() {
 }
 
 /**
- * Add a qualified status to the sum
- * @param  {Boolean} q
- * @private
- */
-DependencyCollection.prototype._addToSum = function(q) {
-	this._qualSum += q ? 1 : this._qualSum === 0 ? 0 : -1
-}
-
-/**
  * Handler for a set's `change` event
  * Emit a `change` event when the qualfied status of the collection changes
  * @param  {Object} state
@@ -61,7 +53,7 @@ DependencyCollection.prototype._setChangeHandler = function(state) {
 	var prevState = this.qualified
 	this._qualSum += state.qualified ? 1 : this._qualSum === 0 ? 0 : -1
 	this.qualified = this._qualSum > 0
-
+	
 	if (this.qualified !== prevState) {
 		this.emit('change', {
 			triggerBy: state.triggerBy,
