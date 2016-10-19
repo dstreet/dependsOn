@@ -5,6 +5,7 @@ const uglify  = require('gulp-uglify')
 const rename  = require('gulp-rename')
 const webpack = require('gulp-webpack')
 const zip     = require('gulp-zip')
+const replace = require('gulp-replace')
 const package = require('./package')
 
 const paths = {
@@ -18,6 +19,7 @@ gulp.task('build', function() {
 		.pipe(webpack())
 		.pipe(rename('dependsOn.min.js'))
 		.pipe(uglify({ preserveComments: 'some' }))
+		.pipe(replace('${version}', package.version))
 		.pipe(gulp.dest(paths.dist))
 })
 
