@@ -1,4 +1,6 @@
 # dependsOn
+[![Support](https://supporterhq.com/api/b/43xsfofk4c2xlijz6mvrx5yga/dependsOn)](https://supporterhq.com/support/43xsfofk4c2xlijz6mvrx5yga/dependsOn)
+
 A jQuery plugin to facilitate the handling of form field dependencies.
 
 $( subject ).dependsOn( dependencySet, [options] );
