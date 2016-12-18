@@ -162,7 +162,7 @@ describe('SubjectController', () => {
 			})
 
 			$('#subject').hide()
-			expect($('#subject').is(':visible')).toBeFalsy()
+			expect($('#subject').css('display')).toBe('none')
 			controller._enable()
 			expect($('#subject').is(':visible')).toBeTruthy()
 		})
@@ -290,7 +290,7 @@ describe('SubjectController', () => {
 
 			expect($('#subject').is(':visible')).toBeTruthy()
 			controller._disable()
-			expect($('#subject').is(':visible')).toBeFalsy()
+			expect($('#subject').css('display')).toBe('none')
 		})
 	})
 

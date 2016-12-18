@@ -43,7 +43,7 @@ describe('DependencySet', () => {
 		checkField.setAttribute('checked', true)
 		set.runCheck()
 		expect(mockHandler.mock.calls.length).toBe(1)
-		expect(mockHandler.mock.calls[0][0].triggerBy.$ele.selector).toBe('#check-field')
+		expect(mockHandler.mock.calls[0][0].triggerBy.$ele.attr('id')).toBe('check-field')
 	})
 
 	it('should emit a `change` event when any dependency becomes unqualified', () => {
@@ -74,7 +74,7 @@ describe('DependencySet', () => {
 		set.runCheck()
 		expect(mockHandler.mock.calls.length).toBe(1)
 		expect(mockHandler.mock.calls[0][0].qualified).toBe(false)
-		expect(mockHandler.mock.calls[0][0].triggerBy.$ele.selector).toBe('#text-field')
+		expect(mockHandler.mock.calls[0][0].triggerBy.$ele.attr('id')).toBe('text-field')
 
 		textField.value = '11'
 		set.runCheck()
