@@ -1,6 +1,6 @@
 {
   "name": "jquery-depends-on",
-  "version": "1.4.1",
+  "version": "1.5.0",
   "description": "A jQuery plugin to facilitate the handling of form field dependencies.",
   "main": "src/dependsOn.js",
   "directories": {
