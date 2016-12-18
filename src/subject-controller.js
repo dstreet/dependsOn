@@ -122,7 +122,7 @@ SubjectController.prototype._enable = function(dependency, e) {
 		this.$subject.addClass(this.options.toggleClass)
 	}
 
-	if (dependency) this.options.onEnable.call(dependency, e, this.$subject)
+	this.options.onEnable.call(dependency, e, this.$subject)
 }
 
 /**
@@ -156,7 +156,7 @@ SubjectController.prototype._disable = function(dependency, e) {
 		this.$subject.removeClass(this.options.toggleClass)
 	}
 
-	if (dependency) this.options.onDisable.call(dependency, e, this.$subject)
+	this.options.onDisable.call(dependency, e, this.$subject)
 }
 
 /**
