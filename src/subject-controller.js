@@ -174,8 +174,8 @@ SubjectController.prototype._toggleDisplay = function(show, noFade) {
 	} else {
 		$hideEle = this.$subject.add('label[for="' + id + '"]')
 	}
-
-	if (show && !$hideEle.is(':visible')) {
+	
+	if (show) {
 		if (noFade) {
 			$hideEle.show()
 		} else {
